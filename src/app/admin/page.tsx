@@ -33,9 +33,19 @@ export default function AdminLogin() {
       password: ""
     },
   })
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values)
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    const response = await fetch("http://localhost:3500/auth/login/admin", {
+      method: 'POST' ,
+      body: JSON.stringify(values),
+      headers:{
+        'Content-Type':'application/json'
+      }
+    });
+    const data= await response.json();
+    console.log(data);
+    // Redirect or perform additional actions after successful login if needed
   }
+
   return (
     <div className="relative h-screen flex-col items-center justify-center md:grid lg:max-w-none lg:grid-cols-2 lg:px-0">
       <Link
