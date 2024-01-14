@@ -1,9 +1,8 @@
 "use client"
-
+import { useRouter } from 'next/navigation'
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import * as z from "zod"
-
 import { Button, buttonVariants } from "@/components/ui/button"
 import {
   Form,
@@ -15,6 +14,7 @@ import {
 import { Input } from "@/components/ui/input"
 import Link from "next/link"
 import { cn } from "@/lib/utils"
+import { useToast } from "@/components/ui/use-toast"
 
 const formSchema = z.object({
   username: z.string().min(2, {
@@ -26,6 +26,8 @@ const formSchema = z.object({
 })
 
 export default function AdminLogin() {
+  const { toast } = useToast()
+  const router = useRouter()
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -34,17 +36,46 @@ export default function AdminLogin() {
     },
   })
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    const response = await fetch("http://localhost:3500/auth/login/admin", {
-      method: 'POST' ,
-      body: JSON.stringify(values),
-      headers:{
-        'Content-Type':'application/json'
+    try {
+      const response = await fetch("http://localhost:3500/auth/login/admin", {
+        method: 'POST',
+        body: JSON.stringify(values),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+  
+      if (response.ok) {
+        toast({
+          description: "Login Successful.",
+        })
+        const data = await response.json();
+        // Assuming the _id is available in the response data
+        const userId = data._id;
+  
+        // Store user details in localStorage
+        localStorage.setItem("userDetails", JSON.stringify({ userId }));
+  
+        // Navigate to the dashboard page
+        router.push('/admin/dashboard'); 
+      } else {
+        // Handle login failure (e.g., show an error message)
+        toast({
+          variant: "destructive",
+          description: "Incorrect Username/Password.",
+        })
+        console.error('Login failed');
       }
-    });
-    const data= await response.json();
-    console.log(data);
-    // Redirect or perform additional actions after successful login if needed
+    } catch (error) {
+      // Handle network or other errors
+      toast({
+        variant: "destructive",
+        description: "Error during login.",
+      })
+      console.error('Error during login', error);
+    }
   }
+  
 
   return (
     <div className="relative h-screen flex-col items-center justify-center md:grid lg:max-w-none lg:grid-cols-2 lg:px-0">
