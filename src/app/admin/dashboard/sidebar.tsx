@@ -1,4 +1,4 @@
-import { DashboardNav } from "@/components/dashboard-nav";
+import { DashboardNav } from "@/app/admin/dashboard/dashboard-nav";
 import { cn } from "@/lib/utils";
 
 import { Icons } from "@/components/icons";
@@ -25,22 +25,27 @@ export const navItems: NavItem[] = [
   {
     title: "Departments",
     href: "/admin/dashboard/department",
-    icon: "users",
+    icon: "departments",
     label: "department",
   },
   {
     title: "Teachers",
     href: "/admin/dashboard/teacher",
-    icon: "users",
+    icon: "teachers",
     label: "teachers",
   },
   {
     title: "Students",
     href: "/admin/dashboard/student",
-    icon: "users",
+    icon: "students",
     label: "students",
   },
-
+  {
+    title: "Papers",
+    href: "/admin/dashboard/papers",
+    icon: "papers",
+    label: "papers",
+  },
   {
     title: "Kanban",
     href: "/admin/dashboard/kanban",
@@ -55,7 +60,7 @@ export const navItems: NavItem[] = [
   {
     title: "Logout",
     href: "/",
-    icon: "login",
+    icon: "logout",
     label: "login",
   },
 ];
@@ -69,7 +74,7 @@ export default function Sidebar() {
         <div className="px-3 py-2">
           <div className="space-y-1">
             <h2 className="mb-2 px-4 text-xl font-semibold tracking-tight">
-              Overview
+              Menu
             </h2>
             <DashboardNav items={navItems} />
           </div>

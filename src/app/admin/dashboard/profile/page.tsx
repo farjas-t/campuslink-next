@@ -17,7 +17,7 @@ import { Input } from "@/components/ui/input"
 import { useToast } from "@/components/ui/use-toast"
 
 const formSchema = z.object({
-    showname: z.string().min(2),
+    name: z.string().min(2),
     username: z.string().min(2),
     password: z.string().min(4),
 })
@@ -27,7 +27,7 @@ export default function AdminLogin() {
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            showname:"",
+            name:"",
             username: "",
             password: ""
         },
@@ -50,7 +50,7 @@ export default function AdminLogin() {
               const adminDetails = await detailsres.json();
     
               // Update the form with the fetched username
-              form.setValue('showname', adminDetails.name);
+              form.setValue('name', adminDetails.name);
               form.setValue('username', adminDetails.username);
             } else {
               console.error('Failed to fetch admin details');
@@ -81,6 +81,9 @@ export default function AdminLogin() {
                 toast({
                     description: "Profile updated successfully.",
                 });
+                setTimeout(() => {
+                    window.location.reload();
+                  }, 2000);
             } else {
                 toast({
                     variant: "destructive",
@@ -115,7 +118,7 @@ export default function AdminLogin() {
                                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2 w-full">
                                     <FormField
                                         control={form.control}
-                                        name="showname"
+                                        name="name"
                                         render={({ field }) => (
                                             <FormItem>
                                                 <FormLabel>Name</FormLabel>
@@ -142,7 +145,7 @@ export default function AdminLogin() {
                                         name="password"
                                         render={({ field }) => (
                                             <FormItem>
-                                                <FormLabel>Password</FormLabel>
+                                                <FormLabel>New Password</FormLabel>
                                                 <FormControl>
                                                     <Input type="password" placeholder="enter your password" {...field} />
                                                 </FormControl>

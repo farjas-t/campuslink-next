@@ -1,5 +1,5 @@
 "use client";
-import { DashboardNav } from "@/components/dashboard-nav";
+import { DashboardNav } from "@/app/admin/dashboard/dashboard-nav";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { MenuIcon } from "lucide-react";
 import { useState } from "react";
@@ -26,33 +26,44 @@ export const navItems: NavItem[] = [
     label: "Dashboard",
   },
   {
-    title: "User",
-    href: "/dashboard/user",
-    icon: "user",
-    label: "user",
+    title: "Departments",
+    href: "/admin/dashboard/department",
+    icon: "departments",
+    label: "department",
   },
   {
-    title: "Employee",
-    href: "/dashboard/employee",
-    icon: "employee",
-    label: "employee",
+    title: "Teachers",
+    href: "/admin/dashboard/teacher",
+    icon: "teachers",
+    label: "teachers",
   },
   {
+    title: "Students",
+    href: "/admin/dashboard/student",
+    icon: "students",
+    label: "students",
+  },
+  {
+    title: "Papers",
+    href: "/admin/dashboard/papers",
+    icon: "papers",
+    label: "papers",
+  },
+  {
+    title: "Kanban",
+    href: "/admin/dashboard/kanban",
+    icon: "kanban",
+    label: "kanban",
+  },  {
     title: "Profile",
-    href: "/dashboard/profile",
+    href: "/admin/dashboard/profile",
     icon: "profile",
     label: "profile",
   },
   {
-    title: "Kanban",
-    href: "/dashboard/kanban",
-    icon: "kanban",
-    label: "kanban",
-  },
-  {
     title: "Logout",
     href: "/",
-    icon: "login",
+    icon: "logout",
     label: "login",
   },
 ];
@@ -73,7 +84,7 @@ export function MobileSidebar({ className }: SidebarProps) {
           <div className="space-y-4 py-4">
             <div className="px-3 py-2">
               <h2 className="mb-2 px-4 text-lg font-semibold tracking-tight">
-                Overview
+                Menu
               </h2>
               <div className="space-y-1">
                 <DashboardNav items={navItems} setOpen={setOpen} />

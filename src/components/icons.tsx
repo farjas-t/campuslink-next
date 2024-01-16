@@ -15,6 +15,7 @@ import {
   LayoutDashboardIcon,
   Loader2,
   LogIn,
+  LogOut,
   LucideIcon,
   LucideProps,
   Moon,
@@ -31,14 +32,22 @@ import {
   User2Icon,
   UserX2Icon,
   X,
+  BookCopy,
+  BookText,
+  UsersRound
 } from "lucide-react";
 
 export type Icon = LucideIcon;
 
 export const Icons = {
   dashboard: LayoutDashboardIcon,
+  papers:BookText,
+  departments:BookCopy,
+  students:UsersRound,
+  teachers: Users,
   logo: Command,
   login: LogIn,
+  logout:LogOut,
   close: X,
   profile: UserCog,
   spinner: Loader2,
@@ -56,7 +65,6 @@ export const Icons = {
   add: Plus,
   warning: AlertTriangle,
   user: User,
-  users: Users,
   arrowRight: ArrowRight,
   help: HelpCircle,
   pizza: Pizza,
