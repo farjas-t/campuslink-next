@@ -6,20 +6,19 @@ import { CellAction } from "./cell-action";
 export type Student = {
   _id: string;
   name: string;
-  admno:number;
-  rollno:number;
-  semester:{
-    _id:string;
-    semnum:number;
-  }
-  department:{
-    _id : string;
+  admno: number;
+  rollno: number;
+  semester: {
+    _id: string;
+    semnum: number;
+  };
+  department: {
+    _id: string;
     deptname: string;
-  }
+  };
   email: string;
   username: string;
 };
-
 
 export const columns: ColumnDef<Student>[] = [
   {
@@ -27,7 +26,9 @@ export const columns: ColumnDef<Student>[] = [
     header: ({ table }) => (
       <Checkbox
         checked={table.getIsAllPageRowsSelected()}
-        onCheckedChange={(value: any) => table.toggleAllPageRowsSelected(!!value)}
+        onCheckedChange={(value: any) =>
+          table.toggleAllPageRowsSelected(!!value)
+        }
         aria-label="Select all"
       />
     ),

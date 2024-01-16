@@ -10,8 +10,10 @@ import Link from "next/link";
 
 import { Papers } from "@/components/tables/papers-tables/columns";
 
-const breadcrumbItems = [{ title: "Dashboard", link: "/admin/dashboard/" },{ title: "Papers", link: "admin/dashboard/papers" }];
-  
+const breadcrumbItems = [
+  { title: "Dashboard", link: "/admin/dashboard/" },
+  { title: "Papers", link: "admin/dashboard/papers" },
+];
 
 type paramsProps = {
   searchParams: {
@@ -24,14 +26,9 @@ export default async function page({ searchParams }: paramsProps) {
   const pageLimit = Number(searchParams.limit) || 10;
   const offset = (page - 1) * pageLimit;
 
+  const res = await fetch(`http://localhost:3500/paper`);
 
-  const res = await fetch(
-    `http://localhost:3500/paper`
-  );
-
-  const countres = await fetch(
-    `http://localhost:3500/paper/extra/count`
-  );
+  const countres = await fetch(`http://localhost:3500/paper/extra/count`);
 
   const countData = await countres.json();
   const count = countData.count;
@@ -45,10 +42,7 @@ export default async function page({ searchParams }: paramsProps) {
         <AdminBreadCrumb items={breadcrumbItems} />
 
         <div className="flex items-start justify-between">
-          <Heading
-            title={`Papers (${count})`}
-            description="Manage papers"
-          />
+          <Heading title={`Papers (${count})`} description="Manage papers" />
 
           <Link
             href={"/dashboard/papers/new"}

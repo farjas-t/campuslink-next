@@ -54,7 +54,8 @@ export const navItems: NavItem[] = [
     href: "/admin/dashboard/kanban",
     icon: "kanban",
     label: "kanban",
-  },  {
+  },
+  {
     title: "Profile",
     href: "/admin/dashboard/profile",
     icon: "profile",

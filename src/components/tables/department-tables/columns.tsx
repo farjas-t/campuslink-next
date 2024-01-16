@@ -9,14 +9,15 @@ export type Department = {
   semcount: number;
 };
 
-
 export const columns: ColumnDef<Department>[] = [
   {
     id: "select",
     header: ({ table }) => (
       <Checkbox
         checked={table.getIsAllPageRowsSelected()}
-        onCheckedChange={(value: any) => table.toggleAllPageRowsSelected(!!value)}
+        onCheckedChange={(value: any) =>
+          table.toggleAllPageRowsSelected(!!value)
+        }
         aria-label="Select all"
       />
     ),

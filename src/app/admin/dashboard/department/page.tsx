@@ -10,8 +10,10 @@ import Link from "next/link";
 
 import { Department } from "@/components/tables/department-tables/columns";
 
-const breadcrumbItems = [{ title: "Dashboard", link: "/admin/dashboard/" },{ title: "Departments", link: "admin/dashboard/departments" }];
-  
+const breadcrumbItems = [
+  { title: "Dashboard", link: "/admin/dashboard/" },
+  { title: "Departments", link: "admin/dashboard/departments" },
+];
 
 type paramsProps = {
   searchParams: {
@@ -24,14 +26,9 @@ export default async function page({ searchParams }: paramsProps) {
   const pageLimit = Number(searchParams.limit) || 10;
   const offset = (page - 1) * pageLimit;
 
+  const res = await fetch(`http://localhost:3500/department`);
 
-  const res = await fetch(
-    `http://localhost:3500/department`
-  );
-
-  const countres = await fetch(
-    `http://localhost:3500/department/extra/count`
-  );
+  const countres = await fetch(`http://localhost:3500/department/extra/count`);
 
   const countData = await countres.json();
   const count = countData.count;

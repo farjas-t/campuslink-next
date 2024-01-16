@@ -10,8 +10,10 @@ import Link from "next/link";
 
 import { Teacher } from "@/components/tables/teacher-tables/columns";
 
-const breadcrumbItems = [{ title: "Dashboard", link: "/admin/dashboard/" },{ title: "Teachers", link: "admin/dashboard/teacher" }];
-  
+const breadcrumbItems = [
+  { title: "Dashboard", link: "/admin/dashboard/" },
+  { title: "Teachers", link: "admin/dashboard/teacher" },
+];
 
 type paramsProps = {
   searchParams: {
@@ -24,14 +26,9 @@ export default async function page({ searchParams }: paramsProps) {
   const pageLimit = Number(searchParams.limit) || 10;
   const offset = (page - 1) * pageLimit;
 
+  const res = await fetch(`http://localhost:3500/teacher`);
 
-  const res = await fetch(
-    `http://localhost:3500/teacher`
-  );
-
-  const countres = await fetch(
-    `http://localhost:3500/teacher/extra/count`
-  );
+  const countres = await fetch(`http://localhost:3500/teacher/extra/count`);
 
   const countData = await countres.json();
   const count = countData.count;

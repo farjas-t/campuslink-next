@@ -7,13 +7,12 @@ export type Teacher = {
   _id: string;
   name: string;
   email: string;
-  department:{
-    _id : string;
+  department: {
+    _id: string;
     deptname: string;
-  }
+  };
   username: string;
 };
-
 
 export const columns: ColumnDef<Teacher>[] = [
   {
@@ -21,7 +20,9 @@ export const columns: ColumnDef<Teacher>[] = [
     header: ({ table }) => (
       <Checkbox
         checked={table.getIsAllPageRowsSelected()}
-        onCheckedChange={(value: any) => table.toggleAllPageRowsSelected(!!value)}
+        onCheckedChange={(value: any) =>
+          table.toggleAllPageRowsSelected(!!value)
+        }
         aria-label="Select all"
       />
     ),

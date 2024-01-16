@@ -3,7 +3,10 @@ import { KanbanBoard } from "@/components/kanban/kanban-board";
 import NewTaskDialog from "@/components/kanban/new-task-dialog";
 import { Heading } from "@/components/ui/heading";
 
-const breadcrumbItems = [{ title: "Dashboard", link: "/admin/dashboard/" },{ title: "Kanban", link: "admin/dashboard/kanban" }];
+const breadcrumbItems = [
+  { title: "Dashboard", link: "/admin/dashboard/" },
+  { title: "Kanban", link: "admin/dashboard/kanban" },
+];
 export default function page() {
   return (
     <>

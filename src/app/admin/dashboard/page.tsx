@@ -1,33 +1,25 @@
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 export default async function page() {
-  
   const deptcountres = await fetch(
-    `http://localhost:3500/department/extra/count`
+    `http://localhost:3500/department/extra/count`,
   );
   const deptcountData = await deptcountres.json();
   const deptcount = deptcountData.count;
 
   const teachcountres = await fetch(
-    `http://localhost:3500/department/extra/count`
+    `http://localhost:3500/department/extra/count`,
   );
   const teachcountData = await teachcountres.json();
   const teachcount = teachcountData.count;
 
-  const studcountres = await fetch(
-    `http://localhost:3500/student/extra/count`
-  );
+  const studcountres = await fetch(`http://localhost:3500/student/extra/count`);
   const studcountData = await studcountres.json();
   const studcount = studcountData.count;
 
-  const username = 'Admin';
+  const username = "Admin";
 
   const notifications = [
     {
@@ -37,7 +29,8 @@ export default async function page() {
     {
       content: "You have a new message!",
       time: "1 hour ago",
-    }]
+    },
+  ];
 
   return (
     <ScrollArea className="h-full">
@@ -128,26 +121,26 @@ export default async function page() {
                 <CardHeader>
                   <CardTitle>Announcements</CardTitle>
                 </CardHeader>
-                  <CardContent>
-                    <div>
-                      {notifications.map((notification, index) => (
-                        <div
-                          key={index}
-                          className="mb-4 grid grid-cols-[25px_1fr] items-start pb-4 last:mb-0 last:pb-0"
-                        >
-                          <span className="flex h-2 w-2 translate-y-1 rounded-full bg-sky-500" />
-                          <div className="space-y-1">
-                            <p className="text-sm font-medium leading-none">
-                              {notification.content}
-                            </p>
-                            <p className="text-sm text-muted-foreground">
-                              {notification.time}
-                            </p>
-                          </div>
+                <CardContent>
+                  <div>
+                    {notifications.map((notification, index) => (
+                      <div
+                        key={index}
+                        className="mb-4 grid grid-cols-[25px_1fr] items-start pb-4 last:mb-0 last:pb-0"
+                      >
+                        <span className="flex h-2 w-2 translate-y-1 rounded-full bg-sky-500" />
+                        <div className="space-y-1">
+                          <p className="text-sm font-medium leading-none">
+                            {notification.content}
+                          </p>
+                          <p className="text-sm text-muted-foreground">
+                            {notification.time}
+                          </p>
                         </div>
-                      ))}
-                    </div>
-                  </CardContent>
+                      </div>
+                    ))}
+                  </div>
+                </CardContent>
               </Card>
             </div>
           </TabsContent>
