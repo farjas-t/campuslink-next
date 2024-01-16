@@ -1,8 +1,8 @@
-"use client"
+"use client";
 
-import { Button, buttonVariants } from '@/components/ui/button'
-import { cn } from '@/lib/utils'
-import Link from 'next/link'
+import { Button, buttonVariants } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
+import Link from "next/link";
 
 export default function Home() {
   return (
@@ -11,7 +11,7 @@ export default function Home() {
         href="/"
         className={cn(
           buttonVariants({ variant: "ghost" }),
-          "absolute right-4 hidden top-4 md:right-8 md:top-8",
+          "absolute right-4 hidden top-4 md:right-8 md:top-8"
         )}
       >
         Login
@@ -19,14 +19,31 @@ export default function Home() {
       <div className="relative hidden h-full flex-col bg-muted p-10 text-white dark:border-r lg:flex">
         <div className="absolute inset-0 bg-zinc-900" />
         <div className="relative z-20 flex items-center text-3xl font-medium">
-          Campuslink
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            className="lucide lucide-link mr-1" // Adjust margin as needed
+          >
+            <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" />
+            <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" />
+          </svg>
+          &nbsp; Campuslink
         </div>
         <div className="relative z-20 mt-auto">
           <blockquote className="space-y-2">
             <p className="text-lg">
               &ldquo;Empowering Educators, Engaging Students&rdquo;
             </p>
-            <footer className="text-sm">Muhammed Abdurahiman Memorial Orphanege College, Mukkam</footer>
+            <footer className="text-sm">
+              Muhammed Abdurahiman Memorial Orphanege College, Mukkam
+            </footer>
           </blockquote>
         </div>
       </div>
@@ -41,14 +58,13 @@ export default function Home() {
             </p>
           </div>
           <Link href="/student">
-            <Button className="ml-auto w-full">
-              Login as Student
-            </Button>
+            <Button className="ml-auto w-full">Login as Student</Button>
           </Link>
           <Link href="/teacher">
             <Button variant="outline" className="ml-auto w-full">
               Login as Teacher
-            </Button></Link>
+            </Button>
+          </Link>
           <p className="px-8 text-center text-sm text-muted-foreground">
             <Link
               href="/admin"
@@ -60,5 +76,5 @@ export default function Home() {
         </div>
       </div>
     </div>
-  )
+  );
 }
