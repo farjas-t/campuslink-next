@@ -1,16 +1,17 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { BookCopy, BookOpen, Users, UsersRound } from "lucide-react";
 
 export default async function page() {
   const deptcountres = await fetch(
-    `http://localhost:3500/department/extra/count`,
+    `http://localhost:3500/department/extra/count`
   );
   const deptcountData = await deptcountres.json();
   const deptcount = deptcountData.count;
 
   const teachcountres = await fetch(
-    `http://localhost:3500/department/extra/count`,
+    `http://localhost:3500/department/extra/count`
   );
   const teachcountData = await teachcountres.json();
   const teachcount = teachcountData.count;
@@ -18,6 +19,10 @@ export default async function page() {
   const studcountres = await fetch(`http://localhost:3500/student/extra/count`);
   const studcountData = await studcountres.json();
   const studcount = studcountData.count;
+
+  const papercountres = await fetch(`http://localhost:3500/paper/extra/count`);
+  const papercountData = await papercountres.json();
+  const papercount = papercountData.count;
 
   const username = "Admin";
 
@@ -46,46 +51,9 @@ export default async function page() {
               <Card>
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                   <CardTitle className="text-sm font-medium">
-                    Departments
-                  </CardTitle>
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    className="h-4 w-4 text-muted-foreground"
-                  >
-                    <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
-                    <circle cx="9" cy="7" r="4" />
-                    <path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75" />
-                  </svg>
-                </CardHeader>
-                <CardContent>
-                  <div className="text-2xl font-bold">{deptcount}</div>
-                </CardContent>
-              </Card>
-              <Card>
-                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium">
                     Students
                   </CardTitle>
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    className="h-4 w-4 text-muted-foreground"
-                  >
-                    <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
-                    <circle cx="9" cy="7" r="4" />
-                    <path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75" />
-                  </svg>
+                  <UsersRound />
                 </CardHeader>
                 <CardContent>
                   <div className="text-2xl font-bold">{studcount}</div>
@@ -96,23 +64,30 @@ export default async function page() {
                   <CardTitle className="text-sm font-medium">
                     Teachers
                   </CardTitle>
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    className="h-4 w-4 text-muted-foreground"
-                  >
-                    <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
-                    <circle cx="9" cy="7" r="4" />
-                    <path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75" />
-                  </svg>
+                  <Users />
                 </CardHeader>
                 <CardContent>
                   <div className="text-2xl font-bold">{teachcount}</div>
+                </CardContent>
+              </Card>
+              <Card>
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                  <CardTitle className="text-sm font-medium">
+                    Departments
+                  </CardTitle>
+                  <BookCopy />
+                </CardHeader>
+                <CardContent>
+                  <div className="text-2xl font-bold">{deptcount}</div>
+                </CardContent>
+              </Card>
+              <Card>
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                  <CardTitle className="text-sm font-medium">Papers</CardTitle>
+                  <BookOpen />
+                </CardHeader>
+                <CardContent>
+                  <div className="text-2xl font-bold">{papercount}</div>
                 </CardContent>
               </Card>
             </div>

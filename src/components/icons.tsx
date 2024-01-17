@@ -33,7 +33,7 @@ import {
   UserX2Icon,
   X,
   BookCopy,
-  BookText,
+  BookOpen,
   UsersRound,
 } from "lucide-react";
 
@@ -41,7 +41,7 @@ export type Icon = LucideIcon;
 
 export const Icons = {
   dashboard: LayoutDashboardIcon,
-  papers: BookText,
+  papers: BookOpen,
   departments: BookCopy,
   students: UsersRound,
   teachers: Users,
