@@ -1,55 +1,147 @@
+"use client";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { BookCopy, BookOpen, Trash, Users, UsersRound } from "lucide-react";
+import { Textarea } from "@/components/ui/textarea";
+import { useToast } from "@/components/ui/use-toast";
+import { zodResolver } from "@hookform/resolvers/zod";
+import {
+  BookCopy,
+  BookOpen,
+  SendHorizontal,
+  Trash,
+  Users,
+  UsersRound,
+} from "lucide-react";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
 
-const fetchCount = async (endpoint: any) => {
-  try {
-    const response = await fetch(endpoint, { method: "GET" });
-    const data = await response.json();
-    return data.count;
-  } catch (error) {
-    console.error(`Error fetching count from ${endpoint}:`);
-    return 0;
+const formSchema = z.object({
+  content: z.string().min(1),
+  from: z.string(),
+});
+
+export default function Page() {
+  const { toast } = useToast();
+  const [deptcount, setDeptCount] = useState(0);
+  const [teachcount, setTeachCount] = useState(0);
+  const [studcount, setStudCount] = useState(0);
+  const [papercount, setPaperCount] = useState(0);
+  const [notifications, setNotifications] = useState([]);
+  const [username, setUsername] = useState("Admin");
+
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      content: "",
+      from: "Admin",
+    },
+  });
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const timestamp = new Date().getTime();
+
+        // Fetch counts
+        setDeptCount(
+          await fetchCount(
+            `http://localhost:3500/department/extra/count?timestamp=${timestamp}`
+          )
+        );
+        setTeachCount(
+          await fetchCount(
+            `http://localhost:3500/teacher/extra/count?timestamp=${timestamp}`
+          )
+        );
+        setStudCount(
+          await fetchCount(
+            `http://localhost:3500/student/extra/count?timestamp=${timestamp}`
+          )
+        );
+        setPaperCount(
+          await fetchCount(
+            `http://localhost:3500/paper/extra/count?timestamp=${timestamp}`
+          )
+        );
+
+        // Fetch announcements
+        const announcements = await fetchAnnouncements(timestamp);
+        setNotifications(announcements);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  async function fetchCount(endpoint: any) {
+    try {
+      const response = await fetch(endpoint, { method: "GET" });
+      const data = await response.json();
+      return data.count;
+    } catch (error) {
+      console.error(`Error fetching count from ${endpoint}:`, error);
+      return 0;
+    }
   }
-};
 
-const fetchAnnouncements = async () => {
-  try {
-    const announcementsRes = await fetch(`http://localhost:3500/announce/`);
-    const data = await announcementsRes.json();
-    return data.map((announcement: any) => ({
-      id: announcement._id,
-      content: announcement.content,
-      from: announcement.from,
-      datetime: announcement.datetime,
-    }));
-  } catch (error) {
-    console.error("Error fetching announcements:");
-    return [];
+  async function fetchAnnouncements(timestamp: any) {
+    try {
+      const announcementsRes = await fetch(
+        `http://localhost:3500/announce?timestamp=${timestamp}`
+      );
+      const data = await announcementsRes.json();
+      return data.map((announcement: any) => ({
+        id: announcement._id,
+        content: announcement.content,
+        from: announcement.from,
+        datetime: announcement.datetime,
+      }));
+    } catch (error) {
+      console.error("Error fetching announcements:", error);
+      return [];
+    }
   }
-};
 
-export default async function page() {
-  const timestamp = new Date().getTime();
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    try {
+      // Update admin request
+      const response = await fetch(`http://localhost:3500/announce/`, {
+        method: "POST",
+        body: JSON.stringify(values),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
 
-  const deptcount = await fetchCount(
-    `http://localhost:3500/department/extra/count?timestamp=${timestamp}`
-  );
-  const teachcount = await fetchCount(
-    `http://localhost:3500/teacher/extra/count?timestamp=${timestamp}`
-  );
-  const studcount = await fetchCount(
-    `http://localhost:3500/student/extra/count?timestamp=${timestamp}`
-  );
-  const papercount = await fetchCount(
-    `http://localhost:3500/paper/extra/count?timestamp=${timestamp}`
-  );
+      if (response.ok) {
+        toast({
+          description: "Announcement Sent Successfully.",
+        });
 
-  const notifications = await fetchAnnouncements();
-
-  const username = "Admin";
+        setTimeout(() => {
+          window.location.reload();
+        }, 2000);
+      } else {
+        toast({
+          variant: "destructive",
+          description: "Failed to send announcement.",
+        });
+        console.error("Announcement failed");
+      }
+    } catch (error) {
+      toast({
+        variant: "destructive",
+        description: "Error during sending announcement.",
+      });
+      console.error("Error during sending announcement", error);
+    }
+  }
 
   return (
     <ScrollArea className="h-full">
@@ -111,6 +203,35 @@ export default async function page() {
                   <CardTitle>Announcements</CardTitle>
                 </CardHeader>
                 <CardContent>
+                  <div className="flex flex-row items-center justify-between space-y-0 space-x-4 pb-2 mb-5">
+                    <Form {...form}>
+                      <form
+                        onSubmit={form.handleSubmit(onSubmit)}
+                        className="space-y-2 space-x-4 w-full contents"
+                      >
+                        <div className="flex-1">
+                          <FormField
+                            control={form.control}
+                            name="content"
+                            render={({ field }) => (
+                              <FormItem>
+                                <FormControl>
+                                  <Textarea
+                                    placeholder="Type your announcement here."
+                                    {...field}
+                                  />
+                                </FormControl>
+                              </FormItem>
+                            )}
+                          />
+                        </div>
+
+                        <Button variant="default" className="bg-sky-500 flex-2">
+                          <SendHorizontal />
+                        </Button>
+                      </form>
+                    </Form>
+                  </div>
                   <div>
                     {notifications.map((notification: any, index: any) => (
                       <div
@@ -131,7 +252,7 @@ export default async function page() {
                                 &#8208;&nbsp;{notification.from}
                               </p>
                             </div>
-                            <Button variant="destructive" size="icon">
+                            <Button variant="outline" size="icon">
                               <Trash />
                             </Button>
                           </div>
