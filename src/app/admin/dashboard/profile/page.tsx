@@ -23,7 +23,7 @@ const formSchema = z.object({
 });
 const breadcrumbItems = [
   { title: "Dashboard", link: "/admin/dashboard/" },
-  { title: "Edit Profile", link: "admin/dashboard/profile" },
+  { title: "Edit Profile", link: "/admin/dashboard/profile" },
 ];
 export default function AdminLogin() {
   const { toast } = useToast();
@@ -49,7 +49,7 @@ export default function AdminLogin() {
           `http://localhost:3500/admin/${fetchedAdminId}`,
           {
             method: "GET",
-          },
+          }
         );
 
         if (detailsres.ok) {
@@ -83,7 +83,7 @@ export default function AdminLogin() {
           headers: {
             "Content-Type": "application/json",
           },
-        },
+        }
       );
       console.log(response);
       if (response.ok) {

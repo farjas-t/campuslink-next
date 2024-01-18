@@ -12,7 +12,7 @@ import { Department } from "@/components/tables/department-tables/columns";
 
 const breadcrumbItems = [
   { title: "Dashboard", link: "/admin/dashboard/" },
-  { title: "Departments", link: "admin/dashboard/departments" },
+  { title: "Departments", link: "/admin/dashboard/department" },
 ];
 
 type paramsProps = {
@@ -24,11 +24,14 @@ type paramsProps = {
 export default async function page({ searchParams }: paramsProps) {
   const page = Number(searchParams.page) || 1;
   const pageLimit = Number(searchParams.limit) || 10;
-  const offset = (page - 1) * pageLimit;
 
-  const res = await fetch(`http://localhost:3500/department`);
+  const res = await fetch(`http://localhost:3500/department/`, {
+    method: "GET",
+  });
 
-  const countres = await fetch(`http://localhost:3500/department/extra/count`);
+  const countres = await fetch(`http://localhost:3500/department/extra/count`, {
+    method: "GET",
+  });
 
   const countData = await countres.json();
   const count = countData.count;
@@ -48,10 +51,10 @@ export default async function page({ searchParams }: paramsProps) {
           />
 
           <Link
-            href={"/dashboard/department/new"}
+            href={"/admin/dashboard/department/new"}
             className={cn(buttonVariants({ variant: "default" }))}
           >
-            <Plus className="mr-2 h-4 w-4" /> Add New
+            <Plus className="mr-2 h-4 w-4" /> Create
           </Link>
         </div>
         <Separator />

@@ -1,41 +1,55 @@
+import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { BookCopy, BookOpen, Users, UsersRound } from "lucide-react";
+import { BookCopy, BookOpen, Trash, Users, UsersRound } from "lucide-react";
+
+const fetchCount = async (endpoint: any) => {
+  try {
+    const response = await fetch(endpoint, { method: "GET" });
+    const data = await response.json();
+    return data.count;
+  } catch (error) {
+    console.error(`Error fetching count from ${endpoint}:`);
+    return 0;
+  }
+};
+
+const fetchAnnouncements = async () => {
+  try {
+    const announcementsRes = await fetch(`http://localhost:3500/announce/`);
+    const data = await announcementsRes.json();
+    return data.map((announcement: any) => ({
+      id: announcement._id,
+      content: announcement.content,
+      from: announcement.from,
+      datetime: announcement.datetime,
+    }));
+  } catch (error) {
+    console.error("Error fetching announcements:");
+    return [];
+  }
+};
 
 export default async function page() {
-  const deptcountres = await fetch(
-    `http://localhost:3500/department/extra/count`
+  const timestamp = new Date().getTime();
+
+  const deptcount = await fetchCount(
+    `http://localhost:3500/department/extra/count?timestamp=${timestamp}`
   );
-  const deptcountData = await deptcountres.json();
-  const deptcount = deptcountData.count;
-
-  const teachcountres = await fetch(
-    `http://localhost:3500/department/extra/count`
+  const teachcount = await fetchCount(
+    `http://localhost:3500/teacher/extra/count?timestamp=${timestamp}`
   );
-  const teachcountData = await teachcountres.json();
-  const teachcount = teachcountData.count;
+  const studcount = await fetchCount(
+    `http://localhost:3500/student/extra/count?timestamp=${timestamp}`
+  );
+  const papercount = await fetchCount(
+    `http://localhost:3500/paper/extra/count?timestamp=${timestamp}`
+  );
 
-  const studcountres = await fetch(`http://localhost:3500/student/extra/count`);
-  const studcountData = await studcountres.json();
-  const studcount = studcountData.count;
-
-  const papercountres = await fetch(`http://localhost:3500/paper/extra/count`);
-  const papercountData = await papercountres.json();
-  const papercount = papercountData.count;
+  const notifications = await fetchAnnouncements();
 
   const username = "Admin";
-
-  const notifications = [
-    {
-      content: "Your call has been confirmed.",
-      time: "1 hour ago",
-    },
-    {
-      content: "You have a new message!",
-      time: "1 hour ago",
-    },
-  ];
 
   return (
     <ScrollArea className="h-full">
@@ -98,19 +112,29 @@ export default async function page() {
                 </CardHeader>
                 <CardContent>
                   <div>
-                    {notifications.map((notification, index) => (
+                    {notifications.map((notification: any, index: any) => (
                       <div
                         key={index}
                         className="mb-4 grid grid-cols-[25px_1fr] items-start pb-4 last:mb-0 last:pb-0"
                       >
                         <span className="flex h-2 w-2 translate-y-1 rounded-full bg-sky-500" />
                         <div className="space-y-1">
-                          <p className="text-sm font-medium leading-none">
-                            {notification.content}
-                          </p>
-                          <p className="text-sm text-muted-foreground">
-                            {notification.time}
-                          </p>
+                          <div className="flex flex-row items-center justify-between space-y-0 pb-2">
+                            <div className="flex flex-col space-y-2">
+                              <p className="text-xs text-muted-foreground">
+                                {notification.datetime}
+                              </p>
+                              <p className="text-sm font-medium leading-none">
+                                {notification.content}
+                              </p>
+                              <p className="text-sm text-muted-foreground">
+                                &#8208;&nbsp;{notification.from}
+                              </p>
+                            </div>
+                            <Button variant="destructive" size="icon">
+                              <Trash />
+                            </Button>
+                          </div>
                         </div>
                       </div>
                     ))}

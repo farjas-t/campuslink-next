@@ -12,7 +12,7 @@ import { Student } from "@/components/tables/student-tables/columns";
 
 const breadcrumbItems = [
   { title: "Dashboard", link: "/admin/dashboard/" },
-  { title: "Students", link: "admin/dashboard/student" },
+  { title: "Students", link: "/admin/dashboard/student" },
 ];
 
 type paramsProps = {
@@ -26,9 +26,13 @@ export default async function page({ searchParams }: paramsProps) {
   const pageLimit = Number(searchParams.limit) || 10;
   const offset = (page - 1) * pageLimit;
 
-  const res = await fetch(`http://localhost:3500/student`);
+  const res = await fetch(`http://localhost:3500/student`, {
+    method: "GET",
+  });
 
-  const countres = await fetch(`http://localhost:3500/student/extra/count`);
+  const countres = await fetch(`http://localhost:3500/student/extra/count`, {
+    method: "GET",
+  });
 
   const countData = await countres.json();
   const count = countData.count;
