@@ -56,7 +56,7 @@ export default async function page({ searchParams }: paramsProps) {
           <Heading title={`Papers (${count})`} description="Manage papers" />
 
           <Link
-            href={"/dashboard/papers/new"}
+            href={"/admin/dashboard/papers/new"}
             className={cn(buttonVariants({ variant: "default" }))}
           >
             <Plus className="mr-2 h-4 w-4" /> Add New
