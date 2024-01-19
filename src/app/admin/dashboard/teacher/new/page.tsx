@@ -14,6 +14,15 @@ import {
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import React from "react";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 const breadcrumbItems = [
   { title: "Dashboard", link: "/admin/dashboard/" },
@@ -24,11 +33,12 @@ const breadcrumbItems = [
 const formSchema = z.object({
   name: z.string().min(2),
   email: z.string(),
+  department: z.string(),
   username: z.string(),
   password: z.string(),
 });
 
-export default function CreateDept() {
+export default function CreateTeacher() {
   const router = useRouter();
   const { toast } = useToast();
   const form = useForm<z.infer<typeof formSchema>>({
@@ -36,10 +46,36 @@ export default function CreateDept() {
     defaultValues: {
       name: "",
       email: "",
+      department: "",
       username: "",
       password: "",
     },
   });
+
+  const [departments, setDepartments] = React.useState<any[]>([]);
+
+  React.useEffect(() => {
+    const fetchDepartments = async () => {
+      try {
+        const response = await fetch("http://localhost:3500/department");
+        if (response.ok) {
+          const data = await response.json();
+          setDepartments(data);
+        } else {
+          console.error("Failed to fetch departments");
+        }
+      } catch (error) {
+        console.error("Error during department fetch", error);
+      }
+    };
+
+    fetchDepartments();
+  }, []);
+
+  // Custom function to handle value change
+  const handleDepartmentChange = (value: string) => {
+    form.setValue("department", value);
+  };
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
@@ -55,9 +91,7 @@ export default function CreateDept() {
         toast({
           description: "Teacher created successfully.",
         });
-        setTimeout(() => {
-          router.push("/admin/dashboard/teacher/");
-        }, 2000);
+        router.push("/admin/dashboard/teacher/");
       } else {
         toast({
           variant: "destructive",
@@ -75,7 +109,7 @@ export default function CreateDept() {
   }
 
   return (
-    <>
+    <ScrollArea className="h-full">
       <div className="flex-1 space-y-4 p-4 md:p-8 pt-6">
         <BreadCrumb items={breadcrumbItems} />
         <div className="p-4 lg:p-8 h-full flex items-start">
@@ -91,6 +125,40 @@ export default function CreateDept() {
                 onSubmit={form.handleSubmit(onSubmit)}
                 className="space-y-2 w-full"
               >
+                <FormField
+                  control={form.control}
+                  name="department"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Department</FormLabel>
+                      <Select
+                        onValueChange={handleDepartmentChange} // Use setValue to update the form value
+                        value={form.getValues("department")} // Get the current value from the form
+                        defaultValue={form.getValues("department")}
+                      >
+                        <FormControl>
+                          <SelectTrigger>
+                            <SelectValue
+                              defaultValue={form.getValues("department")}
+                              placeholder="Select a department"
+                            />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          {departments.map((department) => (
+                            <SelectItem
+                              key={department._id}
+                              value={department._id}
+                            >
+                              {department.deptname}{" "}
+                              {/* Use deptname from the API response */}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </FormItem>
+                  )}
+                />
                 <FormField
                   control={form.control}
                   name="name"
@@ -156,7 +224,7 @@ export default function CreateDept() {
                   )}
                 />
                 <br />
-                <Button type="submit" className="ml-auto w-full">
+                <Button type="submit" className="ml-auto">
                   Create
                 </Button>
               </form>
@@ -164,6 +232,6 @@ export default function CreateDept() {
           </div>
         </div>
       </div>
-    </>
+    </ScrollArea>
   );
 }
