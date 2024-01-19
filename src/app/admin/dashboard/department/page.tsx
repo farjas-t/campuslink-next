@@ -25,13 +25,21 @@ export default async function page({ searchParams }: paramsProps) {
   const page = Number(searchParams.page) || 1;
   const pageLimit = Number(searchParams.limit) || 10;
 
-  const res = await fetch(`http://localhost:3500/department/`, {
-    method: "GET",
-  });
+  const timestamp = new Date().getTime();
 
-  const countres = await fetch(`http://localhost:3500/department/extra/count`, {
-    method: "GET",
-  });
+  const res = await fetch(
+    `http://localhost:3500/department?timestamp=${timestamp}`,
+    {
+      method: "GET",
+    }
+  );
+
+  const countres = await fetch(
+    `http://localhost:3500/department/extra/count?timestamp=${timestamp}`,
+    {
+      method: "GET",
+    }
+  );
 
   const countData = await countres.json();
   const count = countData.count;

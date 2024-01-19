@@ -25,14 +25,21 @@ export default async function page({ searchParams }: paramsProps) {
   const page = Number(searchParams.page) || 1;
   const pageLimit = Number(searchParams.limit) || 10;
   const offset = (page - 1) * pageLimit;
+  const timestamp = new Date().getTime();
 
-  const res = await fetch(`http://localhost:3500/teacher`, {
-    method: "GET",
-  });
+  const res = await fetch(
+    `http://localhost:3500/teacher?timestamp=${timestamp}`,
+    {
+      method: "GET",
+    }
+  );
 
-  const countres = await fetch(`http://localhost:3500/teacher/extra/count`, {
-    method: "GET",
-  });
+  const countres = await fetch(
+    `http://localhost:3500/teacher/extra/count?timestamp=${timestamp}`,
+    {
+      method: "GET",
+    }
+  );
 
   const countData = await countres.json();
   const count = countData.count;
@@ -52,7 +59,7 @@ export default async function page({ searchParams }: paramsProps) {
           />
 
           <Link
-            href={"/dashboard/teacher/new"}
+            href={"/admin/dashboard/teacher/new"}
             className={cn(buttonVariants({ variant: "default" }))}
           >
             <Plus className="mr-2 h-4 w-4" /> Add New
