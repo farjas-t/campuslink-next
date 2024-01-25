@@ -51,6 +51,12 @@ export const navItems: NavItem[] = [
     label: "papers",
   },
   {
+    title: "Time Table",
+    href: "/admin/dashboard/timetable",
+    icon: "timetable",
+    label: "timetable",
+  },
+  {
     title: "Kanban",
     href: "/admin/dashboard/kanban",
     icon: "kanban",
@@ -99,7 +105,7 @@ export function DashboardNav({ items, setOpen }: DashboardNavProps) {
                 className={cn(
                   "group flex items-center rounded-md px-3 py-2 text-sm font-medium hover:bg-accent hover:text-accent-foreground",
                   path === item.href ? "bg-accent" : "transparent",
-                  item.disabled && "cursor-not-allowed opacity-80",
+                  item.disabled && "cursor-not-allowed opacity-80"
                 )}
               >
                 <Icon className="mr-2 h-4 w-4" />
