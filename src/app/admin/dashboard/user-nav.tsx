@@ -4,15 +4,15 @@ import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
-  DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 export function UserNav() {
+  const router = useRouter();
   const [adminId, setAdminId] = useState<string | null>(null);
   const [adminName, setadminName] = useState<string | null>(null);
   const [adminUname, setadminUname] = useState<string | null>(null);
@@ -28,7 +28,7 @@ export function UserNav() {
           `http://localhost:3500/admin/${fetchedAdminId}`,
           {
             method: "GET",
-          },
+          }
         );
         if (detailsres.ok) {
           const adminDetails = await detailsres.json();
@@ -64,25 +64,14 @@ export function UserNav() {
           </div>
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <DropdownMenuGroup>
-          <DropdownMenuItem>
-            Profile
-            <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
-          </DropdownMenuItem>
-          <DropdownMenuItem>
-            Billing
-            <DropdownMenuShortcut>⌘B</DropdownMenuShortcut>
-          </DropdownMenuItem>
-          <DropdownMenuItem>
-            Settings
-            <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
-          </DropdownMenuItem>
-          <DropdownMenuItem>New Team</DropdownMenuItem>
-        </DropdownMenuGroup>
+        <DropdownMenuItem
+          onClick={() => router.push("/admin/dashboard/profile")}
+        >
+          Profile
+        </DropdownMenuItem>
         <DropdownMenuSeparator />
-        <DropdownMenuItem onClick={() => console.log("signout")}>
+        <DropdownMenuItem onClick={() => router.push("/")}>
           Log out
-          <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
