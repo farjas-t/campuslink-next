@@ -1,5 +1,5 @@
 "use client";
-
+import Cookies from "js-cookie";
 import BreadCrumb from "@/components/breadcrumb";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -35,18 +35,14 @@ export default function AdminLogin() {
       password: "",
     },
   });
-  const [adminId, setAdminId] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchAdminDetails = async () => {
       try {
-        // Replace this with your logic to fetch the adminId
-        const fetchedAdminId = "659441246b3303bd58840d3f";
-
-        setAdminId(fetchedAdminId); // Set the adminId in the state
+        const adminId = Cookies.get("adminId");
 
         const detailsres = await fetch(
-          `http://localhost:3500/admin/${fetchedAdminId}`,
+          `http://localhost:3500/admin/${adminId}`,
           {
             method: "GET",
           }
@@ -72,6 +68,7 @@ export default function AdminLogin() {
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
+      const adminId = Cookies.get("adminId");
       const updatedAdminId = adminId;
 
       //update admin request

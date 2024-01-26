@@ -1,4 +1,5 @@
 "use client";
+import Cookies from "js-cookie";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
@@ -13,7 +14,6 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 export function UserNav() {
   const router = useRouter();
-  const [adminId, setAdminId] = useState<string | null>(null);
   const [adminName, setadminName] = useState<string | null>(null);
   const [adminUname, setadminUname] = useState<string | null>(null);
 
@@ -21,11 +21,10 @@ export function UserNav() {
     const fetchAdminDetails = async () => {
       try {
         // Replace this with your logic to fetch the adminId
-        const fetchedAdminId = "659441246b3303bd58840d3f";
-        setAdminId(fetchedAdminId); // Set the adminId in the state
+        const adminId = Cookies.get("adminId");
 
         const detailsres = await fetch(
-          `http://localhost:3500/admin/${fetchedAdminId}`,
+          `http://localhost:3500/admin/${adminId}`,
           {
             method: "GET",
           }

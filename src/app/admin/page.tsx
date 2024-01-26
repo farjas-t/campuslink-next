@@ -1,4 +1,5 @@
 "use client";
+import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -50,13 +51,11 @@ export default function AdminLogin() {
           description: "Login Successful.",
         });
         const data = await response.json();
-        // Assuming the _id is available in the response data
+
         const userId = data._id;
 
-        // Store user details in localStorage
-        localStorage.setItem("userDetails", JSON.stringify({ userId }));
+        Cookies.set("adminId", userId);
 
-        // Navigate to the dashboard page
         router.push("/admin/dashboard");
       } else {
         // Handle login failure (e.g., show an error message)
@@ -82,7 +81,7 @@ export default function AdminLogin() {
         href="/authentication"
         className={cn(
           buttonVariants({ variant: "ghost" }),
-          "absolute right-4 hidden top-4 md:right-8 md:top-8",
+          "absolute right-4 hidden top-4 md:right-8 md:top-8"
         )}
       >
         Login

@@ -1,4 +1,5 @@
 "use client";
+import Cookies from "js-cookie";
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -31,15 +32,45 @@ export default function Page() {
   const [studcount, setStudCount] = useState(0);
   const [papercount, setPaperCount] = useState(0);
   const [notifications, setNotifications] = useState([]);
-  const [username, setUsername] = useState("Admin");
+  const [username, setUsername] = useState(0);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       content: "",
-      from: "Admin",
+      from: `${username}`,
     },
   });
+
+  useEffect(() => {
+    const fetchAdminDetails = async () => {
+      try {
+        // Replace this with your logic to fetch the adminId
+        const adminId = Cookies.get("adminId");
+
+        const detailsres = await fetch(
+          `http://localhost:3500/admin/${adminId}`,
+          {
+            method: "GET",
+          }
+        );
+        if (detailsres.ok) {
+          const adminDetails = await detailsres.json();
+          setUsername(adminDetails.name);
+          const formValues = {
+            content: "",
+            from: `${adminDetails.name}`,
+          };
+          form.reset(formValues);
+        } else {
+          console.error("Failed to fetch admin details");
+        }
+      } catch (error) {
+        console.error("Error during admin details fetch", error);
+      }
+    };
+    fetchAdminDetails();
+  }, [form]);
 
   useEffect(() => {
     const fetchData = async () => {
