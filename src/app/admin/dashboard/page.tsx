@@ -99,7 +99,6 @@ export default function Page() {
           )
         );
 
-        // Fetch announcements
         const announcements = await fetchAnnouncements(timestamp);
         setNotifications(announcements);
       } catch (error) {
@@ -109,6 +108,36 @@ export default function Page() {
 
     fetchData();
   }, []);
+
+  const onDelete = async (announceId: string) => {
+    try {
+      const response = await fetch(
+        `http://localhost:3500/announce/${announceId}`,
+        {
+          method: "DELETE",
+        }
+      );
+      if (response.ok) {
+        toast({
+          description: "Announcement deleted successfully.",
+        });
+        const timestamp = new Date().getTime();
+        const updatedAnnouncements = await fetchAnnouncements(timestamp);
+        setNotifications(updatedAnnouncements);
+      } else {
+        toast({
+          variant: "destructive",
+          description: "Failed to delete announcement.",
+        });
+      }
+    } catch (error) {
+      toast({
+        variant: "destructive",
+        description: "Error during deletion.",
+      });
+      console.error("Error during deletion", error);
+    }
+  };
 
   async function fetchCount(endpoint: any) {
     try {
@@ -154,10 +183,9 @@ export default function Page() {
         toast({
           description: "Announcement Sent Successfully.",
         });
-
-        setTimeout(() => {
-          window.location.reload();
-        }, 2000);
+        const timestamp = new Date().getTime();
+        const updatedAnnouncements = await fetchAnnouncements(timestamp);
+        setNotifications(updatedAnnouncements);
       } else {
         toast({
           variant: "destructive",
@@ -283,7 +311,12 @@ export default function Page() {
                                 &#8208;&nbsp;{notification.from}
                               </p>
                             </div>
-                            <Button variant="outline" size="icon">
+                            <Button
+                              variant="outline"
+                              size="icon"
+                              className="p-2"
+                              onClick={() => onDelete(notification.id)}
+                            >
                               <Trash />
                             </Button>
                           </div>
