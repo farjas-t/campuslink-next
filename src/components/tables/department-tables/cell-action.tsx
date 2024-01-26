@@ -1,5 +1,5 @@
 "use client";
-import { AlertModal } from "@/components/modal/alert-modal";
+import { AlertModal } from "@/components/modal/alert-modal-dept";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -33,6 +33,7 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
         onClose={() => setOpen(false)}
         onConfirm={onConfirm}
         loading={loading}
+        data={data}
       />
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
@@ -45,7 +46,9 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
           <DropdownMenuLabel>Actions</DropdownMenuLabel>
 
           <DropdownMenuItem
-            onClick={() => router.push(`/dashboard/user/${data.id}`)}
+            onClick={() =>
+              router.push(`/admin/dashboard/department/edit/${data._id}`)
+            }
           >
             <Edit className="mr-2 h-4 w-4" /> Update
           </DropdownMenuItem>

@@ -5,6 +5,7 @@ import { CellAction } from "./cell-action";
 
 export type Department = {
   id: string;
+  _id: string;
   deptname: string;
   semcount: number;
 };
