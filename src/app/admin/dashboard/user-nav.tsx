@@ -43,6 +43,11 @@ export function UserNav() {
     fetchAdminDetails();
   }, []);
 
+  const handleLogout = () => {
+    Cookies.remove("adminId");
+    router.push("/");
+  };
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -69,9 +74,7 @@ export function UserNav() {
           Profile
         </DropdownMenuItem>
         <DropdownMenuSeparator />
-        <DropdownMenuItem onClick={() => router.push("/")}>
-          Log out
-        </DropdownMenuItem>
+        <DropdownMenuItem onClick={handleLogout}>Log out</DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );

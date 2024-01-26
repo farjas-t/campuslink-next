@@ -1,5 +1,5 @@
 "use client";
-
+import Cookies from "js-cookie";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -99,6 +99,11 @@ export function DashboardNav({ items, setOpen }: DashboardNavProps) {
               href={item.disabled ? "/" : item.href}
               onClick={() => {
                 if (setOpen) setOpen(false);
+                console.log("Clicked item:", item);
+                if (item.label === "login") {
+                  console.log("Removing 'adminId' cookie");
+                  Cookies.remove("adminId");
+                }
               }}
             >
               <span
