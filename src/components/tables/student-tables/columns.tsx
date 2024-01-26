@@ -2,6 +2,8 @@
 import { Checkbox } from "@/components/ui/checkbox";
 import { ColumnDef } from "@tanstack/react-table";
 import { CellAction } from "./cell-action";
+import { Button } from "@/components/ui/button";
+import { CaretSortIcon } from "@radix-ui/react-icons";
 
 export type Student = {
   _id: string;
@@ -22,33 +24,34 @@ export type Student = {
 
 export const columns: ColumnDef<Student>[] = [
   {
-    id: "select",
-    header: ({ table }) => (
-      <Checkbox
-        checked={table.getIsAllPageRowsSelected()}
-        onCheckedChange={(value: any) =>
-          table.toggleAllPageRowsSelected(!!value)
-        }
-        aria-label="Select all"
-      />
-    ),
-    cell: ({ row }) => (
-      <Checkbox
-        checked={row.getIsSelected()}
-        onCheckedChange={(value) => row.toggleSelected(!!value)}
-        aria-label="Select row"
-      />
-    ),
-    enableSorting: false,
-    enableHiding: false,
-  },
-  {
     accessorKey: "admno",
-    header: "Adm.No.",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="link"
+          className="p-0 text-muted-foreground"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Adm.No.
+          <CaretSortIcon className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
   },
   {
     accessorKey: "name",
-    header: "Name",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="link"
+          className="p-0 text-muted-foreground"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Name
+          <CaretSortIcon className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
   },
   {
     accessorKey: "email",
@@ -56,11 +59,33 @@ export const columns: ColumnDef<Student>[] = [
   },
   {
     accessorKey: "department.deptname",
-    header: "Department",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="link"
+          className="p-0 text-muted-foreground"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Department
+          <CaretSortIcon className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
   },
   {
     accessorKey: "semester.semnum",
-    header: "Semester",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="link"
+          className="p-0 text-muted-foreground"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Semester
+          <CaretSortIcon className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
   },
   {
     id: "actions",

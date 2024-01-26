@@ -1,6 +1,8 @@
 "use client";
 import {
   ColumnDef,
+  SortingState,
+  getSortedRowModel,
   PaginationState,
   flexRender,
   getCoreRowModel,
@@ -55,6 +57,7 @@ export function DepartmentTable<TData, TValue>({
   pageCount,
   pageSizeOptions = [10, 20, 30, 40, 50],
 }: DataTableProps<TData, TValue>) {
+  const [sorting, setSorting] = React.useState<SortingState>([]);
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -85,7 +88,7 @@ export function DepartmentTable<TData, TValue>({
 
       return newSearchParams.toString();
     },
-    [searchParams],
+    [searchParams]
   );
 
   // Handle server-side pagination
@@ -103,7 +106,7 @@ export function DepartmentTable<TData, TValue>({
       })}`,
       {
         scroll: false,
-      },
+      }
     );
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -115,8 +118,11 @@ export function DepartmentTable<TData, TValue>({
     pageCount: pageCount ?? -1,
     getCoreRowModel: getCoreRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
+    onSortingChange: setSorting,
+    getSortedRowModel: getSortedRowModel(),
     state: {
       pagination: { pageIndex, pageSize },
+      sorting,
     },
     onPaginationChange: setPagination,
     getPaginationRowModel: getPaginationRowModel(),
@@ -165,7 +171,7 @@ export function DepartmentTable<TData, TValue>({
                         ? null
                         : flexRender(
                             header.column.columnDef.header,
-                            header.getContext(),
+                            header.getContext()
                           )}
                     </TableHead>
                   );
@@ -186,7 +192,7 @@ export function DepartmentTable<TData, TValue>({
                     <TableCell key={cell.id}>
                       {flexRender(
                         cell.column.columnDef.cell,
-                        cell.getContext(),
+                        cell.getContext()
                       )}
                     </TableCell>
                   ))}
