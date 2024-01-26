@@ -16,6 +16,7 @@ import { Input } from "@/components/ui/input";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { useToast } from "@/components/ui/use-toast";
+import { useEffect } from "react";
 
 const formSchema = z.object({
   username: z.string().min(2, {
@@ -29,6 +30,23 @@ const formSchema = z.object({
 export default function AdminLogin() {
   const { toast } = useToast();
   const router = useRouter();
+
+  useEffect(() => {
+    // Check for cookies
+    const adminId = Cookies.get("adminId");
+    const teacherId = Cookies.get("teacherId");
+    const studentId = Cookies.get("studentId");
+
+    // Redirect based on cookie presence
+    if (adminId) {
+      router.push("/admin/dashboard/");
+    } else if (teacherId) {
+      router.push("/teacher/dashboard/");
+    } else if (studentId) {
+      router.push("/student/dashboard/");
+    }
+  }, []);
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {

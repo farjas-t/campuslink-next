@@ -1,17 +1,37 @@
 "use client";
-
+import Cookies from "js-cookie";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 export default function Home() {
+  const router = useRouter();
+
+  useEffect(() => {
+    // Check for cookies
+    const adminId = Cookies.get("adminId");
+    const teacherId = Cookies.get("teacherId");
+    const studentId = Cookies.get("studentId");
+
+    // Redirect based on cookie presence
+    if (adminId) {
+      router.push("/admin/dashboard/");
+    } else if (teacherId) {
+      router.push("/teacher/dashboard/");
+    } else if (studentId) {
+      router.push("/student/dashboard/");
+    }
+  }, []);
+
   return (
     <div className="relative h-screen flex-col items-center justify-center md:grid lg:max-w-none lg:grid-cols-2 lg:px-0">
       <Link
         href="/"
         className={cn(
           buttonVariants({ variant: "ghost" }),
-          "absolute right-4 hidden top-4 md:right-8 md:top-8",
+          "absolute right-4 hidden top-4 md:right-8 md:top-8"
         )}
       >
         Login
