@@ -64,12 +64,15 @@ export default function Page() {
                               onClick={() => onClick(papers._id)}
                             >
                               <div className="flex flex-col space-y-2 text-left">
-                                <p className="text-xs text-muted-foreground">
-                                  {papers.department.deptname}
-                                </p>
-                                <CardTitle>{papers.paper}</CardTitle>
                                 <p className="text-sm text-muted-foreground">
                                   Semester {papers.semester.semnum}
+                                </p>
+
+                                <CardTitle>
+                                  {papers.paper} &#40; {papers.code} &#41;
+                                </CardTitle>
+                                <p className="text-xs text-muted-foreground">
+                                  {papers.department.deptname}
                                 </p>
                               </div>
                               <ChevronRight />
