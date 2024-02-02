@@ -1,6 +1,10 @@
 "use client";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useEffect, useState } from "react";
+import { useOthers } from "../../../../../../liveblocks.config";
+import { Button } from "@/components/ui/button";
+import { ChevronLeft, ChevronRight, Presentation } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 interface Paper {
   _id: string;
@@ -18,6 +22,9 @@ interface Paper {
 
 export default function ViewPaper({ params }: { params: { paperId: string } }) {
   const paperid = params.paperId;
+  const others = useOthers();
+  const userCount = others.length + 1;
+  const router = useRouter();
   const timestamp = new Date().getTime();
   const [paper, setPaper] = useState<Paper | null>(null);
   useEffect(() => {
@@ -42,19 +49,46 @@ export default function ViewPaper({ params }: { params: { paperId: string } }) {
     };
     fetchPaperDetails();
   }, []);
+  const onClick = async (routeName: string) => {
+    router.push(`./${paperid}/${routeName}`);
+  };
   return (
-    <ScrollArea className="h-full">
+    <>
       {paper && (
-        <div className="flex-1 space-y-4 p-4 md:p-8 pt-6">
-          <div>
-            <p className="text-sm text-muted-foreground">{paper.code}</p>
-            <h1 className="text-2xl font-bold tracking-tight">{paper.paper}</h1>
-            <p className="text-sm text-muted-foreground">
-              Semester {paper.semester.semnum}, {paper.department.deptname}
-            </p>
+        <div className="w-full h-20 flex p-4 justify-start items-center border-b">
+          <Button variant="ghost" className="mr-5 p-0">
+            <ChevronLeft />
+          </Button>
+          <div className="flex items-center gap-2">
+            <div className="flex flex-col">
+              <span className="font-bold font-xl">{paper.paper}</span>
+              <span className="text-xs">Online : {userCount}</span>
+            </div>
           </div>
         </div>
       )}
-    </ScrollArea>
+      <ScrollArea className="h-full p-5">
+        <div className="mb-4 grid items-start pb-4 last:mb-0 last:pb-0">
+          <div className="space-y-1">
+            <div className="flex flex-row items-center justify-between space-y-0">
+              <Button
+                variant="outline"
+                size="icon"
+                className="w-full h-fit p-4 justify-between"
+                onClick={() => onClick("collab")}
+              >
+                <div className="flex flex-row items-center space-y-0 justify-start">
+                  <Presentation />
+                  <div className="flex flex-col space-y-2 text-left">
+                    <h1 className="font-bold text-xl ml-5">Collab Board</h1>
+                  </div>
+                </div>
+                <ChevronRight />
+              </Button>
+            </div>
+          </div>
+        </div>
+      </ScrollArea>
+    </>
   );
 }
