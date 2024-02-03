@@ -19,7 +19,7 @@ const Live = () => {
   }, []);
 
   const handlePointerLeave = useCallback((event: React.PointerEvent) => {
-    setCoursorSatate({ mode: cursor.Hidden });
+    setCoursorSatate({ mode: CursorMode.Hidden });
 
     updateMyPresence({ cursor: null, message: null });
   }, []);
