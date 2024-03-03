@@ -39,10 +39,10 @@ export const navItems: NavItem[] = [
     label: "timetable",
   },
   {
-    title: "Kanban",
-    href: "/teacher/dashboard/kanban",
+    title: "To Do",
+    href: "/teacher/dashboard/todo",
     icon: "kanban",
-    label: "kanban",
+    label: "todo",
   },
   {
     title: "Profile",

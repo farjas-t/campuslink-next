@@ -42,7 +42,7 @@ export default function StudentLogin() {
         href="/authentication"
         className={cn(
           buttonVariants({ variant: "ghost" }),
-          "absolute right-4 hidden top-4 md:right-8 md:top-8",
+          "absolute right-4 hidden top-4 md:right-8 md:top-8"
         )}
       >
         Login
@@ -127,7 +127,7 @@ export default function StudentLogin() {
               />
               <br />
               <Button type="submit" className="ml-auto w-full">
-                Submit
+                Login
               </Button>
             </form>
           </Form>

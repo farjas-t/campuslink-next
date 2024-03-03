@@ -56,10 +56,10 @@ export const navItems: NavItem[] = [
     label: "timetable",
   },
   {
-    title: "Kanban",
-    href: "/admin/dashboard/kanban",
+    title: "To Do",
+    href: "/admin/dashboard/todo",
     icon: "kanban",
-    label: "kanban",
+    label: "todo",
   },
   {
     title: "Profile",
