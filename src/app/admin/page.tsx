@@ -184,7 +184,7 @@ export default function AdminLogin() {
               />
               <br />
               <Button type="submit" className="ml-auto w-full">
-                Submit
+                Login
               </Button>
             </form>
           </Form>
