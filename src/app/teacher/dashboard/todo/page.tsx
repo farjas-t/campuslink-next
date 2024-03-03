@@ -9,7 +9,10 @@ export default function page() {
     <ScrollArea className="h-full">
       <div className="flex-1 space-y-4 p-4 md:p-8 pt-6">
         <div className="flex items-start justify-between">
-          <Heading title={`Kanban`} description="Manage tasks by dnd" />
+          <Heading
+            title={`To Do Board`}
+            description="Organize your personal todo list here"
+          />
           <NewTaskDialog />
         </div>
         <KanbanBoard />

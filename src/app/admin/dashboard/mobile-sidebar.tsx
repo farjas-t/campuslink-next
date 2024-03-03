@@ -1,5 +1,5 @@
 "use client";
-import { DashboardNav } from "@/app/admin/dashboard/dashboard-nav";
+import { DashboardNav, navItems } from "@/app/admin/dashboard/dashboard-nav";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { MenuIcon } from "lucide-react";
 import { useState } from "react";
@@ -17,63 +17,6 @@ export interface NavItem {
 }
 
 // import { Playlist } from "../data/playlists";
-
-export const navItems: NavItem[] = [
-  {
-    title: "Dashboard",
-    href: "/admin/dashboard",
-    icon: "dashboard",
-    label: "Dashboard",
-  },
-  {
-    title: "Departments",
-    href: "/admin/dashboard/department",
-    icon: "departments",
-    label: "department",
-  },
-  {
-    title: "Teachers",
-    href: "/admin/dashboard/teacher",
-    icon: "teachers",
-    label: "teachers",
-  },
-  {
-    title: "Students",
-    href: "/admin/dashboard/student",
-    icon: "students",
-    label: "students",
-  },
-  {
-    title: "Papers",
-    href: "/admin/dashboard/papers",
-    icon: "papers",
-    label: "papers",
-  },
-  {
-    title: "Time Table",
-    href: "/admin/dashboard/timetable",
-    icon: "timetable",
-    label: "timetable",
-  },
-  {
-    title: "To Do",
-    href: "/admin/dashboard/todo",
-    icon: "kanban",
-    label: "todo",
-  },
-  {
-    title: "Profile",
-    href: "/admin/dashboard/profile",
-    icon: "profile",
-    label: "profile",
-  },
-  {
-    title: "Logout",
-    href: "/",
-    icon: "logout",
-    label: "login",
-  },
-];
 
 interface SidebarProps extends React.HTMLAttributes<HTMLDivElement> {
   // playlists: Playlist[];
