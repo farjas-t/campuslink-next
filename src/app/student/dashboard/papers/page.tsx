@@ -11,14 +11,11 @@ import { useRouter } from "next/navigation";
 export default function Page() {
   const router = useRouter();
 
-  const [semester, setSem] = useState<string | null>(null);
-
   const [papers, setPapers] = useState([]);
 
   useEffect(() => {
     const fetchStudentDetails = async () => {
       try {
-        // Replace this with your logic to fetch the studentId
         const studentId = Cookies.get("studentId");
 
         const detailsres = await fetch(
@@ -29,9 +26,25 @@ export default function Page() {
         );
         if (detailsres.ok) {
           const studentDetails = await detailsres.json();
-          const semesterId = studentDetails.semester._id;
-          setSem(semesterId);
-          console.log(semester);
+          const semester = studentDetails.semester._id;
+
+          const fetchPapers = async () => {
+            try {
+              const response = await fetch(
+                `http://localhost:3500/paper/semester/${semester}`
+              );
+
+              if (response.ok) {
+                const data = await response.json();
+                setPapers(data);
+              } else {
+                console.error("Failed to fetch papers");
+              }
+            } catch (error) {
+              console.error("Error during paper fetch", error);
+            }
+          };
+          fetchPapers();
         } else {
           console.error("Failed to fetch student details");
         }
@@ -40,27 +53,6 @@ export default function Page() {
       }
     };
     fetchStudentDetails();
-  }, []);
-
-  useEffect(() => {
-    const fetchPapers = async () => {
-      try {
-        const response = await fetch(
-          `http://localhost:3500/paper/semester/${semester}`
-        );
-
-        if (response.ok) {
-          const data = await response.json();
-          setPapers(data);
-        } else {
-          console.error("Failed to fetch papers");
-        }
-      } catch (error) {
-        console.error("Error during paper fetch", error);
-      }
-    };
-
-    fetchPapers();
   }, []);
 
   const onClick = async (paperId: string) => {
@@ -94,14 +86,11 @@ export default function Page() {
                             >
                               <div className="flex flex-col space-y-2 text-left">
                                 <p className="text-sm text-muted-foreground">
-                                  Semester {papers.semester.semnum}
+                                  {papers.code}
                                 </p>
-
-                                <CardTitle>
-                                  {papers.paper} &#40; {papers.code} &#41;
-                                </CardTitle>
+                                <CardTitle>{papers.paper}</CardTitle>
                                 <p className="text-xs text-muted-foreground">
-                                  {papers.department.deptname}
+                                  Teacher : {papers.teacher.name}
                                 </p>
                               </div>
                               <ChevronRight />
