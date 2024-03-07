@@ -3,7 +3,14 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { useEffect, useState } from "react";
 import { useOthers } from "../../../../../../liveblocks.config";
 import { Button } from "@/components/ui/button";
-import { ChevronLeft, ChevronRight, Presentation } from "lucide-react";
+import {
+  ChevronLeft,
+  ChevronRight,
+  LibraryBig,
+  MessagesSquare,
+  NotebookPen,
+  Presentation,
+} from "lucide-react";
 import { useRouter } from "next/navigation";
 
 interface Paper {
@@ -69,7 +76,23 @@ export default function ViewPaper({ params }: { params: { paperId: string } }) {
       )}
       <ScrollArea className="h-full p-5">
         <div className="mb-4 grid items-start pb-4 last:mb-0 last:pb-0">
-          <div className="space-y-1">
+          <div className="space-y-5">
+            <div className="flex flex-row items-center justify-between space-y-0">
+              <Button
+                variant="outline"
+                size="icon"
+                className="w-full h-fit p-4 justify-between"
+                onClick={() => onClick("chat")}
+              >
+                <div className="flex flex-row items-center space-y-0 justify-start">
+                  <MessagesSquare />
+                  <div className="flex flex-col space-y-2 text-left">
+                    <h1 className="font-bold text-xl ml-5">Chat</h1>
+                  </div>
+                </div>
+                <ChevronRight />
+              </Button>
+            </div>
             <div className="flex flex-row items-center justify-between space-y-0">
               <Button
                 variant="outline"
@@ -81,6 +104,38 @@ export default function ViewPaper({ params }: { params: { paperId: string } }) {
                   <Presentation />
                   <div className="flex flex-col space-y-2 text-left">
                     <h1 className="font-bold text-xl ml-5">Collab Board</h1>
+                  </div>
+                </div>
+                <ChevronRight />
+              </Button>
+            </div>
+            <div className="flex flex-row items-center justify-between space-y-0">
+              <Button
+                variant="outline"
+                size="icon"
+                className="w-full h-fit p-4 justify-between"
+                onClick={() => onClick("notebook")}
+              >
+                <div className="flex flex-row items-center space-y-0 justify-start">
+                  <NotebookPen />
+                  <div className="flex flex-col space-y-2 text-left">
+                    <h1 className="font-bold text-xl ml-5">Notebook</h1>
+                  </div>
+                </div>
+                <ChevronRight />
+              </Button>
+            </div>
+            <div className="flex flex-row items-center justify-between space-y-0">
+              <Button
+                variant="outline"
+                size="icon"
+                className="w-full h-fit p-4 justify-between"
+                onClick={() => onClick("files")}
+              >
+                <div className="flex flex-row items-center space-y-0 justify-start">
+                  <LibraryBig />
+                  <div className="flex flex-col space-y-2 text-left">
+                    <h1 className="font-bold text-xl ml-5">Study Materials</h1>
                   </div>
                 </div>
                 <ChevronRight />
