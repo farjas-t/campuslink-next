@@ -1,7 +1,30 @@
 "use client";
-import { useEffect, useState } from "react";
-import { Button } from "@/components/ui/button";
+import {
+  JSXElementConstructor,
+  Key,
+  PromiseLikeOfReactNode,
+  ReactElement,
+  ReactNode,
+  ReactPortal,
+  useEffect,
+  useState,
+} from "react";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import { Heading } from "@/components/ui/heading";
+import { Separator } from "@/components/ui/separator";
+import { Pencil } from "lucide-react";
+import Link from "next/link";
+import { cn } from "@/lib/utils";
 
 async function fetchPapers(semId: string) {
   const response = await fetch(`http://localhost:3500/paper/semester/${semId}`);
@@ -36,13 +59,13 @@ async function saveTimetable(semId: string, timetable: any) {
   }
 }
 
-export default function editTimetable({
+export default function showTimetable({
   params,
 }: {
   params: { SemId: string };
 }) {
   const [semid, setSemid] = useState<string>(params.SemId);
-  const [papers, setPapers] = useState<{ _id: string; paper: string }[]>([]);
+  const [papers, setPapers] = useState([]);
   const [timetable, setTimetable] = useState<any>({});
 
   useEffect(() => {
@@ -66,12 +89,98 @@ export default function editTimetable({
     }
   };
 
+  function titleCase(str: string) {
+    return str
+      .toLowerCase()
+      .split(" ")
+      .map(function (word: string) {
+        return word.charAt(0).toUpperCase() + word.slice(1);
+      })
+      .join(" ");
+  }
+
   return (
     <ScrollArea className="h-full">
       <div className="container mx-auto py-10">
-        <pre>{JSON.stringify(papers, null, 2)}</pre>
-        <pre>{JSON.stringify(timetable, null, 2)}</pre>
-        <Button onClick={handleSave}>Save</Button>
+        <Heading title={`Time Table`} description={``} />
+        <br />
+        <Separator />
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead>Day</TableHead>
+              <TableHead>1</TableHead>
+              <TableHead>2</TableHead>
+              <TableHead>3</TableHead>
+              <TableHead>4</TableHead>
+              <TableHead>5</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {["monday", "tuesday", "wednesday", "thursday", "friday"].map(
+              (day) => (
+                <TableRow key={day}>
+                  <TableHead>{titleCase(day)}</TableHead>
+                  {timetable.schedule &&
+                    timetable.schedule[day] &&
+                    timetable.schedule[day].map(
+                      (
+                        period: {
+                          paper:
+                            | string
+                            | number
+                            | boolean
+                            | ReactElement<
+                                any,
+                                string | JSXElementConstructor<any>
+                              >
+                            | Iterable<ReactNode>
+                            | ReactPortal
+                            | PromiseLikeOfReactNode
+                            | null
+                            | undefined;
+                          teacher: {
+                            name:
+                              | string
+                              | number
+                              | boolean
+                              | ReactElement<
+                                  any,
+                                  string | JSXElementConstructor<any>
+                                >
+                              | Iterable<ReactNode>
+                              | ReactPortal
+                              | PromiseLikeOfReactNode
+                              | null
+                              | undefined;
+                          };
+                        },
+                        index: Key | null | undefined
+                      ) => (
+                        <TableCell key={index}>
+                          <span className="text-l font-bold tracking-tight">
+                            {period.paper}
+                          </span>
+                          <br />
+                          <span className="text-sm text-muted-foreground">
+                            {period.teacher.name}
+                          </span>
+                        </TableCell>
+                      )
+                    )}
+                </TableRow>
+              )
+            )}
+          </TableBody>
+        </Table>
+        <br />
+        <Link
+          href={`/admin/dashboard/timetable/${semid}/edit`}
+          className={cn(buttonVariants({ variant: "default" }))}
+        >
+          <Pencil className="mr-2 h-4 w-4" />
+          Edit
+        </Link>
       </div>
     </ScrollArea>
   );

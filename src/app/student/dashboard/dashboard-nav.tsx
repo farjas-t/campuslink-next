@@ -85,6 +85,7 @@ export function DashboardNav({ items, setOpen }: DashboardNavProps) {
                 if (item.label === "login") {
                   console.log("Removing 'studentId' cookie");
                   Cookies.remove("studentId");
+                  Cookies.remove("semId");
                 }
               }}
             >

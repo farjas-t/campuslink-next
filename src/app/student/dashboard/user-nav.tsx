@@ -33,6 +33,7 @@ export function UserNav() {
           const studentDetails = await detailsres.json();
           setstudentUname(studentDetails.username);
           setstudentName(studentDetails.name);
+          Cookies.set("semId", studentDetails.semester._id);
         } else {
           console.error("Failed to fetch student details");
         }
@@ -45,6 +46,7 @@ export function UserNav() {
 
   const handleLogout = () => {
     Cookies.remove("studentId");
+    Cookies.remove("semId");
     router.push("/");
   };
 
