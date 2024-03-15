@@ -92,14 +92,15 @@ export default function TeacherLogin() {
         Login
       </Link>
       <div className="relative hidden h-full flex-col bg-muted p-10 text-white dark:border-r lg:flex">
-        <div className="absolute inset-0 bg-zinc-900" />
-        <div className="relative z-20 flex items-center text-3xl font-medium">
-          <Image
-            src="/Icon_Light.svg"
-            alt="Light Icon"
-            width={24}
-            height={24}
+        <div className="absolute inset-0">
+          <div className="absolute z-10 inset-0 bg-primary opacity-80" />
+          <div
+            className="absolute z-0 inset-0 bg-cover bg-center"
+            style={{ backgroundImage: "url(/bg.jpg)" }}
           />
+        </div>
+        <div className="relative z-20 flex items-center text-3xl font-medium">
+          <Image src="/logo.png" alt="Light Icon" width={48} height={48} />
           &nbsp; Campuslink
         </div>
         <div className="relative z-20 mt-auto">
