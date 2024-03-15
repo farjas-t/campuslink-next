@@ -33,6 +33,12 @@ export const navItems: NavItem[] = [
     label: "papers",
   },
   {
+    title: "Internal",
+    href: "/teacher/dashboard/internal",
+    icon: "internal",
+    label: "internal",
+  },
+  {
     title: "Time Table",
     href: "/teacher/dashboard/timetable",
     icon: "timetable",
