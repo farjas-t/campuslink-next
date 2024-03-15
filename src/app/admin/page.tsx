@@ -17,6 +17,7 @@ import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { useToast } from "@/components/ui/use-toast";
 import { useEffect } from "react";
+import Image from "next/image";
 
 const formSchema = z.object({
   username: z.string().min(2, {
@@ -107,21 +108,12 @@ export default function AdminLogin() {
       <div className="relative hidden h-full flex-col bg-muted p-10 text-white dark:border-r lg:flex">
         <div className="absolute inset-0 bg-zinc-900" />
         <div className="relative z-20 flex items-center text-3xl font-medium">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            className="lucide lucide-link mr-1" // Adjust margin as needed
-          >
-            <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" />
-            <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" />
-          </svg>
+          <Image
+            src="/Icon_Light.svg"
+            alt="Light Icon"
+            width={24}
+            height={24}
+          />
           &nbsp; Campuslink
         </div>
         <div className="relative z-20 mt-auto">
