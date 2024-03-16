@@ -1,10 +1,10 @@
 "use client";
 import BreadCrumb from "@/components/breadcrumb";
-import { buttonVariants } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { Heading } from "@/components/ui/heading";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
-import { Pencil } from "lucide-react";
+import { Pencil, Plus } from "lucide-react";
 import Link from "next/link";
 import {
   Table,
@@ -73,7 +73,7 @@ export default function Page({ params }: { params: { paperId: string } }) {
           </Link>
         </div>
         <Separator />
-        {internal && (
+        {internal && internal.marks && internal.marks.length > 0 ? (
           <Table>
             <TableHeader>
               <TableRow>
@@ -108,6 +108,17 @@ export default function Page({ params }: { params: { paperId: string } }) {
               ))}
             </TableBody>
           </Table>
+        ) : (
+          <p className="text-primary">
+            No records found <br />
+            <br />
+            <Link href={`${paperId}/edit`}>
+              <Button>
+                <Plus className="mr-2 h-4 w-4" />
+                Add Internal
+              </Button>
+            </Link>
+          </p>
         )}
       </div>
     </>
