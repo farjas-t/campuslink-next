@@ -4,7 +4,7 @@ import { buttonVariants } from "@/components/ui/button";
 import { Heading } from "@/components/ui/heading";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
-import { Plus } from "lucide-react";
+import { Pencil } from "lucide-react";
 import Link from "next/link";
 import {
   Table,
@@ -66,10 +66,10 @@ export default function Page({ params }: { params: { paperId: string } }) {
           <Heading title={`Internal Marks`} description="Manage internal" />
 
           <Link
-            href={"/admin/dashboard/internal/new"}
+            href={`/teacher/dashboard/internal/${paperId}/edit`}
             className={cn(buttonVariants({ variant: "default" }))}
           >
-            <Plus className="mr-2 h-4 w-4" /> Add New
+            <Pencil className="mr-2 h-4 w-4" /> Edit
           </Link>
         </div>
         <Separator />
