@@ -100,6 +100,17 @@ export default function EditInternalPage({
     value: string
   ): void => {
     const updatedMarks = [...marks] as any;
+    // If marks[index] is undefined, initialize it with default values
+    if (!updatedMarks[index]) {
+      updatedMarks[index] = {
+        _id: students[index]._id,
+        test: 0,
+        seminar: 0,
+        assignment: 0,
+        attendance: 0,
+        total: 0,
+      };
+    }
     // Update the mark value
     updatedMarks[index][key] = parseInt(value) || 0;
     // Calculate total based on test, seminar, assignment, and attendance
