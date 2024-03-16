@@ -93,7 +93,10 @@ export default function TeacherLogin() {
       </Link>
       <div className="relative hidden h-full flex-col bg-muted p-10 text-white dark:border-r lg:flex">
         <div className="absolute inset-0">
-          <div className="absolute z-10 inset-0 bg-primary opacity-80" />
+          <div
+            className="absolute z-10 inset-0 opacity-80"
+            style={{ backgroundColor: "#1e293b" }}
+          />
           <div
             className="absolute z-0 inset-0 bg-cover bg-center"
             style={{ backgroundImage: "url(/bg.jpg)" }}
