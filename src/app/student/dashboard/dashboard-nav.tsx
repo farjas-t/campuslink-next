@@ -39,6 +39,12 @@ export const navItems: NavItem[] = [
     label: "internal",
   },
   {
+    title: "Requests",
+    href: "/student/dashboard/request",
+    icon: "request",
+    label: "request",
+  },
+  {
     title: "Time Table",
     href: "/student/dashboard/timetable",
     icon: "timetable",

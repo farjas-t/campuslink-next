@@ -37,6 +37,7 @@ import {
   BookOpen,
   UsersRound,
   BookOpenCheck,
+  MessageSquareQuote,
 } from "lucide-react";
 
 export type Icon = LucideIcon;
@@ -49,6 +50,7 @@ export const Icons = {
   teachers: Users,
   timetable: CalendarClock,
   internal: BookOpenCheck,
+  request: MessageSquareQuote,
   logo: Command,
   login: LogIn,
   logout: LogOut,
