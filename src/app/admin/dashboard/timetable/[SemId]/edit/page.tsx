@@ -1,27 +1,10 @@
 "use client";
-import {
-  Select,
-  SelectTrigger,
-  SelectValue,
-  SelectContent,
-  SelectItem,
-} from "@/components/ui/select";
-import {
-  JSXElementConstructor,
-  Key,
-  PromiseLikeOfReactNode,
-  ReactElement,
-  ReactNode,
-  ReactPortal,
-  useEffect,
-  useState,
-} from "react";
-import { Button, buttonVariants } from "@/components/ui/button";
+import React, { useEffect, useState } from "react";
+import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import {
   Table,
   TableBody,
-  TableCaption,
   TableCell,
   TableHead,
   TableHeader,
@@ -29,10 +12,7 @@ import {
 } from "@/components/ui/table";
 import { Heading } from "@/components/ui/heading";
 import { Separator } from "@/components/ui/separator";
-import { Pencil } from "lucide-react";
-import Link from "next/link";
-import { cn } from "@/lib/utils";
-import { useToast } from "@/components/ui/use-toast";
+import { useRouter } from "next/navigation";
 
 async function fetchPapers(semId: string) {
   const response = await fetch(`http://localhost:3500/paper/semester/${semId}`);
@@ -72,41 +52,11 @@ export default function showTimetable({
 }: {
   params: { SemId: string };
 }) {
-  const { toast } = useToast();
   const [semid, setSemid] = useState<string>(params.SemId);
   const [papers, setPapers] = useState([]);
   const [timetable, setTimetable] = useState<any>({});
 
-  const handlePaperChange = (
-    day: string,
-    periodIndex: number,
-    paperId: string
-  ) => {
-    console.log("handlePaperChange function");
-    setTimetable((prevTimetable: any) => {
-      const newTimetable = { ...prevTimetable };
-      newTimetable.schedule[day][periodIndex] = paperId;
-      return newTimetable;
-    });
-  };
-
-  const handleSave = async () => {
-    try {
-      await saveTimetable(semid, timetable);
-      console.log("Timetable saved successfully!");
-      toast({
-        title: "Time Table Edited Succesfuly!",
-      });
-      console.log(
-        JSON.stringify({
-          semester: semid,
-          schedule: timetable,
-        })
-      );
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  const router = useRouter();
 
   useEffect(() => {
     if (semid) {
@@ -120,6 +70,16 @@ export default function showTimetable({
     }
   }, [semid]);
 
+  const handleSave = async () => {
+    try {
+      await saveTimetable(semid, timetable.schedule);
+      console.log("Timetable saved successfully!");
+      router.push(`/admin/dashboard/timetable/${semid}`);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   function titleCase(str: string) {
     return str
       .toLowerCase()
@@ -130,10 +90,16 @@ export default function showTimetable({
       .join(" ");
   }
 
+  const handlePaperChange = (day: string, index: number, paperId: string) => {
+    const updatedTimetable = { ...timetable };
+    updatedTimetable.schedule[day][index] = paperId;
+    setTimetable(updatedTimetable);
+  };
+
   return (
     <ScrollArea className="h-full">
       <div className="container mx-auto py-10">
-        <Heading title={`Edit Time Table`} description={``} />
+        <Heading title={`Time Table`} description={``} />
         <br />
         <Separator />
         <Table>
@@ -155,58 +121,26 @@ export default function showTimetable({
                   {timetable.schedule &&
                     timetable.schedule[day] &&
                     timetable.schedule[day].map(
-                      (
-                        period: {
-                          paper:
-                            | string
-                            | number
-                            | boolean
-                            | ReactElement<
-                                any,
-                                string | JSXElementConstructor<any>
-                              >
-                            | Iterable<ReactNode>
-                            | ReactPortal
-                            | PromiseLikeOfReactNode
-                            | null
-                            | undefined;
-                          teacher: {
-                            name:
-                              | string
-                              | number
-                              | boolean
-                              | ReactElement<
-                                  any,
-                                  string | JSXElementConstructor<any>
-                                >
-                              | Iterable<ReactNode>
-                              | ReactPortal
-                              | PromiseLikeOfReactNode
-                              | null
-                              | undefined;
-                          };
-                        },
-                        index: Key | null | undefined
-                      ) => (
+                      (period: any, index: number) => (
                         <TableCell key={index}>
-                          <Select
-                            key={period.paper}
-                            onValueChange={(value) =>
-                              handlePaperChange(day, index, value)
+                          <select
+                            value={period && period._id}
+                            onChange={(e) =>
+                              handlePaperChange(
+                                day,
+                                index,
+                                e.target.value as string
+                              )
                             }
-                            value={period.paper}
                           >
-                            <SelectTrigger>
-                              <SelectValue placeholder="Select a paper" />
-                            </SelectTrigger>
-                            <SelectContent>
-                              {papers.map((paper) => (
-                                <SelectItem key={paper._id} value={paper._id}>
-                                  {paper.paper}
-                                </SelectItem>
-                              ))}
-                            </SelectContent>
-                          </Select>
+                            <option value="">Select Paper</option>
+                            {papers.map((paper: any) => (
+                              <option key={paper._id} value={paper._id}>
+                                {paper.paper}
+                              </option>
+                            ))}
+                          </select>
+                          <br />
                         </TableCell>
                       )
                     )}
@@ -216,12 +150,7 @@ export default function showTimetable({
           </TableBody>
         </Table>
         <br />
-        <Button
-          onClick={handleSave}
-          className={cn(buttonVariants({ variant: "default" }))}
-        >
-          Save
-        </Button>
+        <Button onClick={handleSave}>Save</Button>
       </div>
     </ScrollArea>
   );
