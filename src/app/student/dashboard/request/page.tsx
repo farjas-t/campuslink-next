@@ -239,6 +239,9 @@ export default function CreateRequest() {
                               </span>
                             )}
                           </p>
+                          <p className="text-sm text-muted-foreground">
+                            Remarks : {request.remark}
+                          </p>
                         </div>
                       </div>
                     </div>
