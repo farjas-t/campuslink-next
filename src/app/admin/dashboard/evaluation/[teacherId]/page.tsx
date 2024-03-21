@@ -4,9 +4,10 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { useEffect, useState } from "react";
 import { Separator } from "@/components/ui/separator";
 
-export default function Page() {
-  const teacherId = Cookies.get("teacherId");
+export default function Page({ params }: { params: { teacherId: string } }) {
+  const teacherId = params.teacherId;
   const [performanceData, setPerformanceData] = useState(null);
+  const [teachername, setTeachername] = useState(null);
 
   useEffect(() => {
     const fetchTeacherDetails = async () => {
@@ -20,6 +21,28 @@ export default function Page() {
         if (detailsres.ok) {
           const teacherDetails = await detailsres.json();
           setPerformanceData(teacherDetails);
+        } else {
+          console.error("Failed to fetch teacher details");
+        }
+      } catch (error) {
+        console.error("Error during teacher details fetch", error);
+      }
+    };
+    fetchTeacherDetails();
+  }, []);
+
+  useEffect(() => {
+    const fetchTeacherDetails = async () => {
+      try {
+        const detailsres = await fetch(
+          `http://localhost:3500/teacher/${teacherId}`,
+          {
+            method: "GET",
+          }
+        );
+        if (detailsres.ok) {
+          const teacherDetails = await detailsres.json();
+          setTeachername(teacherDetails.name);
         } else {
           console.error("Failed to fetch teacher details");
         }
@@ -76,10 +99,13 @@ export default function Page() {
   return (
     <ScrollArea className="h-full">
       <div className="flex-1 space-y-4 p-4 md:p-8 pt-6">
-        <div className="flex items-center justify-between space-y-2">
-          <h2 className="text-3xl font-bold tracking-tight">
-            Performance Overview
-          </h2>
+        <div className="flex flex-col space-y-2 text-left">
+          <h1 className="text-3xl font-semibold tracking-tight">
+            {teachername}
+          </h1>
+          <p className="text-sm text-muted-foreground">
+            Teacher Performance Evaluation
+          </p>
         </div>
         <div>{renderProgressBars()}</div>
       </div>
