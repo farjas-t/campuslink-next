@@ -57,6 +57,12 @@ export const navItems: NavItem[] = [
     label: "timetable",
   },
   {
+    title: "Evaluation",
+    href: "/admin/dashboard/evaluation",
+    icon: "feedback",
+    label: "evaluation",
+  },
+  {
     title: "To Do",
     href: "/admin/dashboard/todo",
     icon: "kanban",
