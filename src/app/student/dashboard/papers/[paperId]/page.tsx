@@ -1,7 +1,6 @@
 "use client";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useEffect, useState } from "react";
-import { useOthers } from "../../../../../../liveblocks.config";
 import { Button } from "@/components/ui/button";
 import {
   ChevronLeft,
@@ -29,8 +28,6 @@ interface Paper {
 
 export default function ViewPaper({ params }: { params: { paperId: string } }) {
   const paperid = params.paperId;
-  const others = useOthers();
-  const userCount = others.length + 1;
   const router = useRouter();
   const timestamp = new Date().getTime();
   const [paper, setPaper] = useState<Paper | null>(null);
@@ -69,7 +66,6 @@ export default function ViewPaper({ params }: { params: { paperId: string } }) {
           <div className="flex items-center gap-2">
             <div className="flex flex-col">
               <span className="font-bold font-xl">{paper.paper}</span>
-              <span className="text-xs">Online : {userCount}</span>
             </div>
           </div>
         </div>
