@@ -113,6 +113,8 @@ export default function ViewPaper({ params }: { params: { paperId: string } }) {
     };
 
     fetchData();
+    const interval = setInterval(fetchData, 4000);
+    return () => clearInterval(interval);
   }, []);
 
   async function fetchChat(timestamp: any) {
