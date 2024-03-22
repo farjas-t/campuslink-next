@@ -163,6 +163,7 @@ export default function CreatePaper({
                   <FormField
                     control={form.control}
                     name={criterion.name as any}
+                    key={index}
                     render={({ field }) => (
                       <FormItem className="space-y-3">
                         <br />

@@ -30,7 +30,7 @@ async function fetchTimetable(semId: string) {
   throw new Error("Failed to fetch timetable");
 }
 
-export default function showTimetable() {
+export default function useTimetable() {
   const semid = Cookies.get("semId");
   const [timetable, setTimetable] = useState<any>({});
 

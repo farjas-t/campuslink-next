@@ -54,7 +54,7 @@ async function saveTimetable(semId: string, timetable: any) {
   }
 }
 
-export default function showTimetable({
+export default function useTimetable({
   params,
 }: {
   params: { SemId: string };
