@@ -60,7 +60,11 @@ export default function ViewPaper({ params }: { params: { paperId: string } }) {
     <>
       {paper && (
         <div className="w-full h-20 flex p-4 justify-start items-center border-b">
-          <Button variant="ghost" className="mr-5 p-0">
+          <Button
+            variant="ghost"
+            className="mr-5 p-0"
+            onClick={() => router.back()}
+          >
             <ChevronLeft />
           </Button>
           <div className="flex items-center gap-2">
@@ -94,22 +98,6 @@ export default function ViewPaper({ params }: { params: { paperId: string } }) {
                 variant="outline"
                 size="icon"
                 className="w-full h-fit p-4 justify-between"
-                onClick={() => onClick("collab")}
-              >
-                <div className="flex flex-row items-center space-y-0 justify-start">
-                  <Presentation />
-                  <div className="flex flex-col space-y-2 text-left">
-                    <h1 className="font-bold text-xl ml-5">Collab Board</h1>
-                  </div>
-                </div>
-                <ChevronRight />
-              </Button>
-            </div>
-            <div className="flex flex-row items-center justify-between space-y-0">
-              <Button
-                variant="outline"
-                size="icon"
-                className="w-full h-fit p-4 justify-between"
                 onClick={() => onClick("notebook")}
               >
                 <div className="flex flex-row items-center space-y-0 justify-start">
@@ -126,7 +114,11 @@ export default function ViewPaper({ params }: { params: { paperId: string } }) {
                 variant="outline"
                 size="icon"
                 className="w-full h-fit p-4 justify-between"
-                onClick={() => onClick("files")}
+                onClick={() =>
+                  router.push(
+                    "https://www.mamoclibrary.in/virtual-class-room-libraries"
+                  )
+                }
               >
                 <div className="flex flex-row items-center space-y-0 justify-start">
                   <LibraryBig />
