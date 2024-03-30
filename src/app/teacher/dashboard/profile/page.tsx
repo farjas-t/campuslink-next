@@ -40,7 +40,7 @@ export default function TeacherLogin() {
         const teacherId = Cookies.get("teacherId");
 
         const detailsres = await fetch(
-          `http://localhost:3500/teacher/${teacherId}`,
+          `${process.env.NEXT_PUBLIC_API_BASE_URL}/teacher/${teacherId}`,
           {
             method: "GET",
           }
@@ -72,7 +72,7 @@ export default function TeacherLogin() {
 
       //update teacher request
       const response = await fetch(
-        `http://localhost:3500/teacher/${updatedTeacherId}`,
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/teacher/${updatedTeacherId}`,
         {
           method: "PATCH",
           body: JSON.stringify(values),

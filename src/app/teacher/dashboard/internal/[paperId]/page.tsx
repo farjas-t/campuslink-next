@@ -49,7 +49,9 @@ export default function Page({ params }: { params: { paperId: string } }) {
 
   useEffect(() => {
     async function fetchInternalMarks(paperId: string) {
-      const res = await fetch(`http://localhost:3500/internal/${paperId}`);
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/internal/${paperId}`
+      );
       const internalRes = await res.json();
       console.log(internalRes);
       setInternal(internalRes);

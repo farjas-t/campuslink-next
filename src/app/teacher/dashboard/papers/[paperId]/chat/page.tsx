@@ -54,7 +54,7 @@ export default function ViewPaper({ params }: { params: { paperId: string } }) {
     const fetchPaperDetails = async () => {
       try {
         const detailsres = await fetch(
-          `http://localhost:3500/paper/${paperid}?timestamp=${timestamp}`,
+          `${process.env.NEXT_PUBLIC_API_BASE_URL}/paper/${paperid}?timestamp=${timestamp}`,
           {
             method: "GET",
           }
@@ -77,7 +77,7 @@ export default function ViewPaper({ params }: { params: { paperId: string } }) {
     const fetchTeacherDetails = async () => {
       try {
         const detailsres = await fetch(
-          `http://localhost:3500/teacher/${teacherId}`,
+          `${process.env.NEXT_PUBLIC_API_BASE_URL}/teacher/${teacherId}`,
           {
             method: "GET",
           }
@@ -120,7 +120,7 @@ export default function ViewPaper({ params }: { params: { paperId: string } }) {
   async function fetchChat(timestamp: any) {
     try {
       const chatRes = await fetch(
-        `http://localhost:3500/chat/${paperid}?timestamp=${timestamp}`
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/chat/${paperid}?timestamp=${timestamp}`
       );
       const data = await chatRes.json();
       return data.map((chat: any) => ({
@@ -138,13 +138,16 @@ export default function ViewPaper({ params }: { params: { paperId: string } }) {
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
       // Update teacher request
-      const response = await fetch(`http://localhost:3500/chat/${paperid}`, {
-        method: "POST",
-        body: JSON.stringify(values),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/chat/${paperid}`,
+        {
+          method: "POST",
+          body: JSON.stringify(values),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
 
       if (response.ok) {
         toast({

@@ -61,7 +61,9 @@ export default function CreatePaper() {
   React.useEffect(() => {
     const fetchDepartments = async () => {
       try {
-        const response = await fetch("http://localhost:3500/department");
+        const response = await fetch(
+          `${process.env.NEXT_PUBLIC_API_BASE_URL}/department`
+        );
         if (response.ok) {
           const data = await response.json();
           setDepartments(data);
@@ -79,7 +81,9 @@ export default function CreatePaper() {
   React.useEffect(() => {
     const fetchTeachers = async () => {
       try {
-        const response = await fetch("http://localhost:3500/teacher/");
+        const response = await fetch(
+          `${process.env.NEXT_PUBLIC_API_BASE_URL}/teacher/`
+        );
         if (response.ok) {
           const data = await response.json();
           setTeachers(data);
@@ -103,13 +107,16 @@ export default function CreatePaper() {
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
-      const response = await fetch(`http://localhost:3500/paper/`, {
-        method: "POST",
-        body: JSON.stringify({ ...values, teacher: values.teacher }),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/paper/`,
+        {
+          method: "POST",
+          body: JSON.stringify({ ...values, teacher: values.teacher }),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
       console.log(response);
       if (response.ok) {
         toast({

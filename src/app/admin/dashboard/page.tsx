@@ -49,7 +49,7 @@ export default function Page() {
         const adminId = Cookies.get("adminId");
 
         const detailsres = await fetch(
-          `http://localhost:3500/admin/${adminId}`,
+          `${process.env.NEXT_PUBLIC_API_BASE_URL}/admin/${adminId}`,
           {
             method: "GET",
           }
@@ -80,22 +80,22 @@ export default function Page() {
         // Fetch counts
         setDeptCount(
           await fetchCount(
-            `http://localhost:3500/department/extra/count?timestamp=${timestamp}`
+            `${process.env.NEXT_PUBLIC_API_BASE_URL}/department/extra/count?timestamp=${timestamp}`
           )
         );
         setTeachCount(
           await fetchCount(
-            `http://localhost:3500/teacher/extra/count?timestamp=${timestamp}`
+            `${process.env.NEXT_PUBLIC_API_BASE_URL}/teacher/extra/count?timestamp=${timestamp}`
           )
         );
         setStudCount(
           await fetchCount(
-            `http://localhost:3500/student/extra/count?timestamp=${timestamp}`
+            `${process.env.NEXT_PUBLIC_API_BASE_URL}/student/extra/count?timestamp=${timestamp}`
           )
         );
         setPaperCount(
           await fetchCount(
-            `http://localhost:3500/paper/extra/count?timestamp=${timestamp}`
+            `${process.env.NEXT_PUBLIC_API_BASE_URL}/paper/extra/count?timestamp=${timestamp}`
           )
         );
 
@@ -112,7 +112,7 @@ export default function Page() {
   const onDelete = async (announceId: string) => {
     try {
       const response = await fetch(
-        `http://localhost:3500/announce/${announceId}`,
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/announce/${announceId}`,
         {
           method: "DELETE",
         }
@@ -153,7 +153,7 @@ export default function Page() {
   async function fetchAnnouncements(timestamp: any) {
     try {
       const announcementsRes = await fetch(
-        `http://localhost:3500/announce?timestamp=${timestamp}`
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/announce?timestamp=${timestamp}`
       );
       const data = await announcementsRes.json();
       return data.map((announcement: any) => ({
@@ -171,13 +171,16 @@ export default function Page() {
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
       // Update admin request
-      const response = await fetch(`http://localhost:3500/announce/`, {
-        method: "POST",
-        body: JSON.stringify(values),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/announce/`,
+        {
+          method: "POST",
+          body: JSON.stringify(values),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
 
       if (response.ok) {
         toast({

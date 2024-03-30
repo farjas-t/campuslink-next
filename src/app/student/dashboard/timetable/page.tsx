@@ -23,7 +23,9 @@ import { Heading } from "@/components/ui/heading";
 import { Separator } from "@/components/ui/separator";
 
 async function fetchTimetable(semId: string) {
-  const response = await fetch(`http://localhost:3500/time_schedule/${semId}`);
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_API_BASE_URL}/time_schedule/${semId}`
+  );
   if (response.ok) {
     return response.json();
   }

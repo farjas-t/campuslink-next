@@ -28,14 +28,14 @@ export default async function page({ searchParams }: paramsProps) {
   const timestamp = new Date().getTime();
 
   const res = await fetch(
-    `http://localhost:3500/student?timestamp=${timestamp}`,
+    `${process.env.NEXT_PUBLIC_API_BASE_URL}/student?timestamp=${timestamp}`,
     {
       method: "GET",
     }
   );
 
   const countres = await fetch(
-    `http://localhost:3500/student/extra/count?timestamp=${timestamp}`,
+    `${process.env.NEXT_PUBLIC_API_BASE_URL}/student/extra/count?timestamp=${timestamp}`,
     {
       method: "GET",
     }

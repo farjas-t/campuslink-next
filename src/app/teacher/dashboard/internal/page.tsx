@@ -54,7 +54,7 @@ export default function Page({ searchParams }: paramsProps) {
   useEffect(() => {
     async function fetchPapers() {
       const res = await fetch(
-        `http://localhost:3500/paper/teacher/${teacherId}`
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/paper/teacher/${teacherId}`
       );
       const papersData = await res.json();
       setPapers(papersData);

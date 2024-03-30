@@ -40,7 +40,7 @@ export default function StudentLogin() {
         const studentId = Cookies.get("studentId");
 
         const detailsres = await fetch(
-          `http://localhost:3500/student/${studentId}`,
+          `${process.env.NEXT_PUBLIC_API_BASE_URL}/student/${studentId}`,
           {
             method: "GET",
           }
@@ -72,7 +72,7 @@ export default function StudentLogin() {
 
       //update student request
       const response = await fetch(
-        `http://localhost:3500/student/${updatedStudentId}`,
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/student/${updatedStudentId}`,
         {
           method: "PATCH",
           body: JSON.stringify(values),

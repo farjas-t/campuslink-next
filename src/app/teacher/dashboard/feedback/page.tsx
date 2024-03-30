@@ -12,7 +12,7 @@ export default function Page() {
     const fetchTeacherDetails = async () => {
       try {
         const detailsres = await fetch(
-          `http://localhost:3500/teacher-eval/${teacherId}`,
+          `${process.env.NEXT_PUBLIC_API_BASE_URL}/teacher-eval/${teacherId}`,
           {
             method: "GET",
           }

@@ -58,7 +58,7 @@ export default function CreateRequest() {
         const studentId = Cookies.get("studentId");
 
         const response = await fetch(
-          `http://localhost:3500/request/student/${studentId}/requests`
+          `${process.env.NEXT_PUBLIC_API_BASE_URL}/request/student/${studentId}/requests`
         );
         if (response.ok) {
           const data = await response.json();
@@ -77,7 +77,9 @@ export default function CreateRequest() {
   useEffect(() => {
     const fetchTeachers = async () => {
       try {
-        const response = await fetch("http://localhost:3500/teacher/");
+        const response = await fetch(
+          `${process.env.NEXT_PUBLIC_API_BASE_URL}/teacher/`
+        );
         if (response.ok) {
           const data: Teacher[] = await response.json();
           setTeachers(data);
@@ -94,19 +96,22 @@ export default function CreateRequest() {
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
-      const response = await fetch("http://localhost:3500/request/", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(values),
-      });
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/request/`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(values),
+        }
+      );
       if (response.ok) {
         toast({
           description: "Request sent successfully.",
         });
         const updatedResponse = await fetch(
-          `http://localhost:3500/request/student/${studentId}/requests`
+          `${process.env.NEXT_PUBLIC_API_BASE_URL}/request/student/${studentId}/requests`
         );
         if (updatedResponse.ok) {
           const updatedData = await updatedResponse.json();

@@ -31,7 +31,7 @@ export default function CreateRequest() {
   const handleAccept = async (requestId: string) => {
     try {
       const response = await fetch(
-        `http://localhost:3500/request/${requestId}/accept`,
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/request/${requestId}/accept`,
         {
           method: "PATCH",
           headers: {
@@ -58,7 +58,7 @@ export default function CreateRequest() {
   const handleReject = async (requestId: string) => {
     try {
       const response = await fetch(
-        `http://localhost:3500/request/${requestId}/reject`,
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/request/${requestId}/reject`,
         {
           method: "PATCH",
           headers: {
@@ -85,7 +85,7 @@ export default function CreateRequest() {
   const fetchUpdatedRequests = async () => {
     try {
       const response = await fetch(
-        `http://localhost:3500/request/teacher/${teacherId}/pending-requests`
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/request/teacher/${teacherId}/pending-requests`
       );
       if (response.ok) {
         const data = await response.json();
@@ -101,7 +101,7 @@ export default function CreateRequest() {
   const fetchPreviousRequests = async () => {
     try {
       const response = await fetch(
-        `http://localhost:3500/request/teacher/${teacherId}/replied-requests`
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/request/teacher/${teacherId}/replied-requests`
       );
       if (response.ok) {
         const data = await response.json();

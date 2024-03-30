@@ -32,7 +32,7 @@ export default function Page() {
         const studentId = Cookies.get("studentId");
 
         const detailsres = await fetch(
-          `http://localhost:3500/student/${studentId}`,
+          `${process.env.NEXT_PUBLIC_API_BASE_URL}/student/${studentId}`,
           {
             method: "GET",
           }
@@ -73,7 +73,7 @@ export default function Page() {
   async function fetchAnnouncements(timestamp: any) {
     try {
       const announcementsRes = await fetch(
-        `http://localhost:3500/announce?timestamp=${timestamp}`
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/announce?timestamp=${timestamp}`
       );
       const data = await announcementsRes.json();
       return data.map((announcement: any) => ({

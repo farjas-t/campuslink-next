@@ -40,7 +40,7 @@ export default function CreateDept({ params }: { params: { deptId: string } }) {
     const fetchDeptDetails = async () => {
       try {
         const detailsres = await fetch(
-          `http://localhost:3500/department/${deptid}`,
+          `${process.env.NEXT_PUBLIC_API_BASE_URL}/department/${deptid}`,
           {
             method: "GET",
           }
@@ -66,7 +66,7 @@ export default function CreateDept({ params }: { params: { deptId: string } }) {
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
       const response = await fetch(
-        `http://localhost:3500/department/${deptid}`,
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/department/${deptid}`,
         {
           method: "PATCH",
           body: JSON.stringify(values),

@@ -19,7 +19,7 @@ export default function Page() {
         const studentId = Cookies.get("studentId");
 
         const detailsres = await fetch(
-          `http://localhost:3500/student/${studentId}`,
+          `${process.env.NEXT_PUBLIC_API_BASE_URL}/student/${studentId}`,
           {
             method: "GET",
           }
@@ -31,7 +31,7 @@ export default function Page() {
           const fetchPapers = async () => {
             try {
               const response = await fetch(
-                `http://localhost:3500/paper/semester/${semester}`
+                `${process.env.NEXT_PUBLIC_API_BASE_URL}/paper/semester/${semester}`
               );
 
               if (response.ok) {

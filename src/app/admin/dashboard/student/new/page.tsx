@@ -64,7 +64,9 @@ export default function CreateStudent() {
   React.useEffect(() => {
     const fetchDepartments = async () => {
       try {
-        const response = await fetch("http://localhost:3500/department");
+        const response = await fetch(
+          `${process.env.NEXT_PUBLIC_API_BASE_URL}/department`
+        );
         if (response.ok) {
           const data = await response.json();
           setDepartments(data);
@@ -88,13 +90,16 @@ export default function CreateStudent() {
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
-      const response = await fetch(`http://localhost:3500/student/`, {
-        method: "POST",
-        body: JSON.stringify(values),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/student/`,
+        {
+          method: "POST",
+          body: JSON.stringify(values),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
       console.log(response);
       if (response.ok) {
         toast({

@@ -42,7 +42,7 @@ export default function AdminLogin() {
         const adminId = Cookies.get("adminId");
 
         const detailsres = await fetch(
-          `http://localhost:3500/admin/${adminId}`,
+          `${process.env.NEXT_PUBLIC_API_BASE_URL}/admin/${adminId}`,
           {
             method: "GET",
           }
@@ -73,7 +73,7 @@ export default function AdminLogin() {
 
       //update admin request
       const response = await fetch(
-        `http://localhost:3500/admin/${updatedAdminId}`,
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/admin/${updatedAdminId}`,
         {
           method: "PATCH",
           body: JSON.stringify(values),

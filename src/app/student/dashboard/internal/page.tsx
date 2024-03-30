@@ -39,7 +39,7 @@ export default function DashboardLayout() {
     const fetchInternal = async () => {
       try {
         const response = await fetch(
-          `http://localhost:3500/internal/student/${studentId}`
+          `${process.env.NEXT_PUBLIC_API_BASE_URL}/internal/student/${studentId}`
         );
 
         if (response.ok) {

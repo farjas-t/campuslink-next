@@ -62,7 +62,7 @@ export default function EditTeacher({
     const fetchPaperDetails = async () => {
       try {
         const detailsres = await fetch(
-          `http://localhost:3500/teacher/${teachid}?timestamp=${timestamp}`,
+          `${process.env.NEXT_PUBLIC_API_BASE_URL}/teacher/${teachid}?timestamp=${timestamp}`,
           {
             method: "GET",
           }
@@ -93,7 +93,9 @@ export default function EditTeacher({
   React.useEffect(() => {
     const fetchDepartments = async () => {
       try {
-        const response = await fetch("http://localhost:3500/department");
+        const response = await fetch(
+          `${process.env.NEXT_PUBLIC_API_BASE_URL}/department`
+        );
         if (response.ok) {
           const data = await response.json();
           setDepartments(data);
@@ -115,13 +117,16 @@ export default function EditTeacher({
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
-      const response = await fetch(`http://localhost:3500/teacher/${teachid}`, {
-        method: "PATCH",
-        body: JSON.stringify(values),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/teacher/${teachid}`,
+        {
+          method: "PATCH",
+          body: JSON.stringify(values),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
       console.log(response);
       if (response.ok) {
         toast({

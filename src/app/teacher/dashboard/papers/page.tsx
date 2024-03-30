@@ -17,7 +17,7 @@ export default function Page() {
       try {
         const teacherId = Cookies.get("teacherId");
         const response = await fetch(
-          `http://localhost:3500/paper/teacher/${teacherId}`
+          `${process.env.NEXT_PUBLIC_API_BASE_URL}/paper/teacher/${teacherId}`
         );
 
         if (response.ok) {

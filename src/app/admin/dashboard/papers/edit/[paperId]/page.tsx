@@ -54,7 +54,7 @@ export default function EditPaper({ params }: { params: { paperId: string } }) {
     const fetchPaperDetails = async () => {
       try {
         const detailsres = await fetch(
-          `http://localhost:3500/paper/${paperid}?timestamp=${timestamp}`,
+          `${process.env.NEXT_PUBLIC_API_BASE_URL}/paper/${paperid}?timestamp=${timestamp}`,
           {
             method: "GET",
           }
@@ -83,7 +83,9 @@ export default function EditPaper({ params }: { params: { paperId: string } }) {
   React.useEffect(() => {
     const fetchTeachers = async () => {
       try {
-        const response = await fetch("http://localhost:3500/teacher/");
+        const response = await fetch(
+          `${process.env.NEXT_PUBLIC_API_BASE_URL}/teacher/`
+        );
         if (response.ok) {
           const data = await response.json();
           setTeachers(data);
@@ -100,13 +102,16 @@ export default function EditPaper({ params }: { params: { paperId: string } }) {
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
-      const response = await fetch(`http://localhost:3500/paper/${paperid}`, {
-        method: "PATCH",
-        body: JSON.stringify({ ...values, teacher: values.teacher }),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/paper/${paperid}`,
+        {
+          method: "PATCH",
+          body: JSON.stringify({ ...values, teacher: values.teacher }),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
       console.log(response);
       if (response.ok) {
         toast({

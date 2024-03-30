@@ -33,7 +33,7 @@ export const AlertModal: React.FC<AlertModalProps> = ({
   const handleDelete = async () => {
     try {
       const response = await fetch(
-        `http://localhost:3500/teacher/${data._id}`,
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/teacher/${data._id}`,
         {
           method: "DELETE",
         }

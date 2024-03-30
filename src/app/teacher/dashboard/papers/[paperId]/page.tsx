@@ -35,7 +35,7 @@ export default function ViewPaper({ params }: { params: { paperId: string } }) {
     const fetchPaperDetails = async () => {
       try {
         const detailsres = await fetch(
-          `http://localhost:3500/paper/${paperid}?timestamp=${timestamp}`,
+          `${process.env.NEXT_PUBLIC_API_BASE_URL}/paper/${paperid}?timestamp=${timestamp}`,
           {
             method: "GET",
           }

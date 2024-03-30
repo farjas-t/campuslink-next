@@ -22,7 +22,9 @@ import { Heading } from "@/components/ui/heading";
 import { Separator } from "@/components/ui/separator";
 
 async function fetchPapers(semId: string) {
-  const response = await fetch(`http://localhost:3500/paper/semester/${semId}`);
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_API_BASE_URL}/paper/semester/${semId}`
+  );
   if (response.ok) {
     return response.json();
   }
@@ -30,7 +32,9 @@ async function fetchPapers(semId: string) {
 }
 
 async function fetchTimetable(semId: string) {
-  const response = await fetch(`http://localhost:3500/time_schedule/${semId}`);
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_API_BASE_URL}/time_schedule/${semId}`
+  );
   if (response.ok) {
     return response.json();
   }
@@ -38,16 +42,19 @@ async function fetchTimetable(semId: string) {
 }
 
 async function saveTimetable(semId: string, timetable: any) {
-  const method = await fetch(`http://localhost:3500/time_schedule/${semId}`, {
-    method: "PATCH",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      semester: semId,
-      schedule: timetable,
-    }),
-  });
+  const method = await fetch(
+    `${process.env.NEXT_PUBLIC_API_BASE_URL}/time_schedule/${semId}`,
+    {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        semester: semId,
+        schedule: timetable,
+      }),
+    }
+  );
 
   if (!method.ok) {
     throw new Error("Failed to save timetable");

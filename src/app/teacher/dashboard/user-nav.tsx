@@ -24,7 +24,7 @@ export function UserNav() {
         const teacherId = Cookies.get("teacherId");
 
         const detailsres = await fetch(
-          `http://localhost:3500/teacher/${teacherId}`,
+          `${process.env.NEXT_PUBLIC_API_BASE_URL}/teacher/${teacherId}`,
           {
             method: "GET",
           }

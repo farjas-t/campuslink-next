@@ -46,14 +46,14 @@ export default function EditInternalPage({
     async function fetchStudents() {
       try {
         const res = await fetch(
-          `http://localhost:3500/paper/${paperId}/students`
+          `${process.env.NEXT_PUBLIC_API_BASE_URL}/paper/${paperId}/students`
         );
         const studentsData: Student[] = await res.json();
         setStudents(studentsData);
 
         // Fetch internal marks
         const internalRes = await fetch(
-          `http://localhost:3500/internal/${paperId}`
+          `${process.env.NEXT_PUBLIC_API_BASE_URL}/internal/${paperId}`
         );
         const internalData = await internalRes.json();
 
@@ -124,13 +124,16 @@ export default function EditInternalPage({
 
   // Update internal marks
   const updateInternalMarks = async (): Promise<void> => {
-    const res = await fetch(`http://localhost:3500/internal/${paperId}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ marks }),
-    });
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}/internal/${paperId}`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ marks }),
+      }
+    );
     if (res.ok) {
       alert("Internal marks updated successfully!");
       router.push(`/teacher/dashboard/internal/${paperId}`);

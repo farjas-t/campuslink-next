@@ -93,7 +93,7 @@ export default function CreatePaper({
     const fetchTeacherDetails = async () => {
       try {
         const detailsres = await fetch(
-          `http://localhost:3500/teacher/${teacherId}`,
+          `${process.env.NEXT_PUBLIC_API_BASE_URL}/teacher/${teacherId}`,
           {
             method: "GET",
           }
@@ -113,13 +113,16 @@ export default function CreatePaper({
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
-      const response = await fetch(`http://localhost:3500/teacher-eval/`, {
-        method: "PUT",
-        body: JSON.stringify(values),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/teacher-eval/`,
+        {
+          method: "PUT",
+          body: JSON.stringify(values),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
       if (response.ok) {
         toast({
           description: "Evaluation submitted successfully.",

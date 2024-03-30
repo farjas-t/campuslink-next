@@ -54,7 +54,9 @@ export default function CreateStudent() {
   React.useEffect(() => {
     const fetchDepartments = async () => {
       try {
-        const response = await fetch("http://localhost:3500/department");
+        const response = await fetch(
+          `${process.env.NEXT_PUBLIC_API_BASE_URL}/department`
+        );
         if (response.ok) {
           const data = await response.json();
           setDepartments(data);
@@ -80,7 +82,7 @@ export default function CreateStudent() {
     const { department, semnum } = values;
     try {
       const response = await fetch(
-        `http://localhost:3500/semester/dept/${department}/${semnum}`,
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/semester/dept/${department}/${semnum}`,
         {
           method: "GET",
         }
@@ -117,7 +119,7 @@ export default function CreateStudent() {
   }
 
   //   const timeSchedulesResponse = await fetch(
-  //     `http://localhost:3500/time_schedule/${SemId}`,
+  //     `${process.env.NEXT_PUBLIC_API_BASE_URL}/time_schedule/${SemId}`,
   //     {
   //       method: "GET",
   //     }

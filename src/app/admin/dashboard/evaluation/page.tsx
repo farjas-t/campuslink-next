@@ -15,7 +15,9 @@ export default function Page() {
   useEffect(() => {
     const fetchTeachers = async () => {
       try {
-        const response = await fetch("http://localhost:3500/teacher/");
+        const response = await fetch(
+          `${process.env.NEXT_PUBLIC_API_BASE_URL}/teacher/`
+        );
         if (response.ok) {
           const data = await response.json();
           setTeachers(data);

@@ -45,7 +45,7 @@ export default function Page() {
         const teacherId = Cookies.get("teacherId");
 
         const detailsres = await fetch(
-          `http://localhost:3500/teacher/${teacherId}`,
+          `${process.env.NEXT_PUBLIC_API_BASE_URL}/teacher/${teacherId}`,
           {
             method: "GET",
           }
@@ -86,7 +86,7 @@ export default function Page() {
   const onDelete = async (announceId: string) => {
     try {
       const response = await fetch(
-        `http://localhost:3500/announce/${announceId}`,
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/announce/${announceId}`,
         {
           method: "DELETE",
         }
@@ -116,7 +116,7 @@ export default function Page() {
   async function fetchAnnouncements(timestamp: any) {
     try {
       const announcementsRes = await fetch(
-        `http://localhost:3500/announce?timestamp=${timestamp}`
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/announce?timestamp=${timestamp}`
       );
       const data = await announcementsRes.json();
       return data.map((announcement: any) => ({
@@ -134,13 +134,16 @@ export default function Page() {
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
       // Update teacher request
-      const response = await fetch(`http://localhost:3500/announce/`, {
-        method: "POST",
-        body: JSON.stringify(values),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/announce/`,
+        {
+          method: "POST",
+          body: JSON.stringify(values),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
 
       if (response.ok) {
         toast({
